@@ -1,19 +1,86 @@
-{% extends 'main/main.html' %}
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - 스포츠{% endblock %}
+{% load static %}
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPORTS SECTION</title>
-</head>
-<body>
-    <h1>인덱스 페이지입니다.</h1>
-    <h2>{{page}}번 페이지</h2>
-</body>
-</html> -->
-
+<!-- 스포츠 서브앱 메인 인덱스 HTML 탬플릿 -->
 
 {% block content %}
-    <h1>스포츠 인덱스 입니다.</h1>
+    <!-- 야구 메인 페이지 자체 CSS -->
+    <style>
+        #wrapper {
+            min-height: 100%;
+        }
+        #main-title {
+            margin: 50px 10%;
+            text-align: center;
+        }
+        #main-title h1 {
+            font-weight: bolder;
+        }
+        .sect {
+            margin: 50px 20%;
+            width: 40%;
+            height: 100px;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+        .sect:hover {
+            width: 60%;
+        }
+        .sect-button {
+            position: absolute;
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            border: 5px silver;
+            border-radius: 10px;
+            box-shadow: 10px 10px 10px #666;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: 0px 0px;
+            background-size: 150%;
+        }
+        .sect-text {
+            position: relative;
+            color: black;
+            font-size: 30px;
+            font-weight: bolder;
+            background: transparent;
+            margin-left: 250px;
+            padding: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        #baseball-button {
+            background-image: url("{% static 'imgs/sports/baseball.jpg' %}");
+            background-position : -30px -30px;
+        }
+        #football-button {
+            background-image: url("{% static 'imgs/sports/football.jpg' %}");
+            background-position : -30px -50px;
+        }
+        #sportsetc-button {
+            background-image: url("{% static 'imgs/sports/sportsetc.jpg' %}");
+        }
+    </style>
+    <div id="wrapper pb-4">
+        <div id="main-title">
+            <h1>스포츠</h1>
+        </div>
+        <div class="sect" style="background: linear-gradient(to right, aquamarine, transparent)" onclick="location.href='/sports/baseball/';">
+            <div class="sect-button" id="baseball-button"></div>
+            <div class="sect-text">야구</div>
+        </div>
+        <div class="sect" style="background: linear-gradient(to right, lightgreen, transparent)" onclick="location.href='#'">
+            <div class="sect-button" id="football-button"></div>
+            <div class="sect-text">축구</div>
+        </div>
+        <div class="sect"  style="background: linear-gradient(to right, burlywood, transparent)" onclick="location.href='#'">
+            <div class="sect-button" id="sportsetc-button"></div>
+            <div class="sect-text">기타</div>
+        </div>
+    </div>
+
 {% endblock %}

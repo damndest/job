@@ -1,0 +1,41 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 작성 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        min-height: 100%;
+    }
+    #main-title {
+        margin: 50px 10%;
+        text-align: center;
+    }
+</style>
+
+<div id="wrapper">
+    <h1 id="main-title">야구 게시판 글쓰기</h1>
+    <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
+    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
+            <tr>
+                <th class="align-middle">제목</th>
+                <td><input type="text" name="title" class="form-control"></td>
+            </tr>
+            <tr>
+                <th class="align-middle">내용</th>
+                <td><textarea name="content" class="form-control" rows="15" style="resize:none;"></textarea></td>
+            </tr>
+        </table>
+        <!-- 버튼 영역 적용 필요 -->
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+            <input type="submit" class="btn btn-success btn-lg mx-2" value="저장" style="width: 120px;">
+            <input type="reset" class="btn btn-danger btn-lg mx-2" value="초기화" style="width: 120px;">
+        </div>
+    </form>
+</div>
+
+{% endblock %}
