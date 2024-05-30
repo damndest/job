@@ -1,35 +1,72 @@
 {% extends 'main/main.html' %}
 {% block title %}글쓰기창{% endblock %}
 {% block content %}
-    <h3 class="text-center mb-3">글쓰기창</h3>
-    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-        <table class="table table-bordered border-primary text-center" 
-            style='width:50%;' align="center">
-            <tr>
-                <th class="align-middle">제목</th>
-                <td><input type='text' name='title' class="form-control"></td>
-            </tr>
-            <tr>
-                <th class="align-middle">내용</th>
-                <td><textarea name="contents" class="form-control" rows="10" 
-                    style="resize:none;"></textarea></td>
-            </tr>
-            <tr>
-                <th class="align-middle">조회수</th>
-                <td><input type='text' name='hits' value="0" class="form-control"></td>
-            </tr>
-            <!-- <tr>
-                <th  class="align-middle">파일첨부</th>
-                <td><input type='file' name='files' multiple></td>
-            </tr> -->
-            <tr>
-                <td colspan="2">
-                    <button type="submit" class="btn btn-success btn-lg"
-                        style="width:120px;">저장</button>
-                    <button type="reset" class="btn btn-danger btn-lg" 
-                        style="width:120px;">다시시작</button>
-                </td>
-            </tr>
-        </table>
-    </form>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    .form-container {
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+    .btn-save {
+        width: 120px;
+    }
+    .btn-reset {
+        width: 120px;
+        margin-left: 10px;
+    }
+    .card-header {
+        background-color: #333333;
+        color: #fff;
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .card-title {
+        font-size: 24px;
+    }
+</style>
+<div class="container">
+    <div class="form-container mx-auto" style="max-width: 600px;">
+        <div class="card-header text-center">
+            <h3 class="card-title mb-3">글쓰기창</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="table table-bordered border-primary text-center" style="width:100%;">
+                <tr>
+                    <th class="align-middle" style="width: 20%;">제목</th>
+                    <td><input type="text" name="title" class="form-control"></td>
+                </tr>
+                <tr>
+                    <th class="align-middle">내용</th>
+                    <td><textarea name="contents" class="form-control" rows="10" style="resize:none;"></textarea></td>
+                </tr>
+                <tr>
+                    <th class="align-middle">조회수</th>
+                    <td><input type="text" name="hits" value="0" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" class="btn btn-success btn-save">저장</button>
+                        <button type="reset" class="btn btn-danger btn-reset">다시시작</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 {% endblock %}
