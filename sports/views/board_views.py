@@ -113,6 +113,7 @@ def read(request, game, post_id):
         content = {
             'game' : game,
             'post' : post,
+            'gamename' : gamename[game],
         }
         return render(request, 'sports/board/pageread.html', content)
     except ObjectDoesNotExist as e: # 이미 삭제되었거나 없는 게시물 조회 시
@@ -137,6 +138,7 @@ def update(request, game, post_id):
                 content = {
                     'game' : game,
                     'post' : post,
+                    'gamename' : gamename[game],
                 }
                 return render(request, 'sports/board/pageupdate.html', content)
             elif request.method == 'POST':
