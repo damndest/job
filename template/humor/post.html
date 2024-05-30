@@ -1,0 +1,15 @@
+{% extends "templates.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    {% endif %}
+    <p>작성자: {{ post.author.username }}</p>
+    <p>조회수: {{ post.views }}</p>
+    <p>작성일: {{ post.created_at }}</p>
+    <a href="{% url 'domestic' %}">목록으로 돌아가기</a>
+{% endblock %}

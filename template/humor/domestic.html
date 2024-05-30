@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>국내</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "templates.html" %}
+
+{% block title %}국내유머{% endblock %}
+
+{% block content %}
+    <h1>국내유머</h1>
+    {% if user.is_authenticated %}
+        <a href="{% url 'write_post' %}">글쓰기</a>
+    {% else %}
+        <p>로그인 후 이용가능한 서비스입니다.</p>
+    {% endif %}
+    <ul>
+        {% for post in posts %}
+            <li><strong>{{ post.title }}</strong>: {{ post.content }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

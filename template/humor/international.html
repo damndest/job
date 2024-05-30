@@ -1,0 +1,14 @@
+
+    {%extends "templates.html"%}
+
+    {%block title%}외국유머{%endblock%}
+
+    {%block content%}
+    <h1>외국유머</h1>
+    <ul>
+        {% for post in post %}
+        <li><strong>{{post.title}}</strong></li>
+        {%endfor%}
+    </ul>
+    {%endblock%}
+    
