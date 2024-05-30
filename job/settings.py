@@ -130,3 +130,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# USER 모델 사용자 지정
+AUTH_USER_MODEL = 'main.Member'

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알쓸여잡 회원가입</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% load static %}
+
+    <script src="{% static 'js/main/join.js' %}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/main">알쓸여잡</a>
+        </div>
+    </nav>
+    <div class="container px-4 py-5" style="height: 46rem;">
+        <h4 class="mb-3">알쓸여잡 회원 가입</h4>
+        <form name="memberForm" class="needs-validation" method="post" novalidate>{% csrf_token %}
+            <div class="mb-3 row">
+                <label for="m_user_id" class="col-sm-2 col-form-label">회원아이디</label>
+                <div class="col-sm-4">
+                    <input type="text" id="m_user_id" name="user_id" class="form-control" required>
+                    <div class="invalid-feedback">
+                        회원 아이디를 입력하세요.
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary" onclick="memberIdChk();">아이디 확인</button>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="mb-3 row">
+                <label for="user_nm" class="col-sm-2 col-form-label">회원명</label>
+                <div class="col-sm-4">
+                    <input type="text" id="user_nm" name="user_name" class="form-control" required>
+                    <div class="invalid-feedback">
+                        회원명을 입력하세요.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="m_password" class="col-sm-2 col-form-label">암호</label>
+                <div class="col-sm-4">
+                    <input type="password" id="m_password" name="password" class="form-control" required>
+                    <div class="invalid-feedback">
+                        암호를 입력하세요.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="m_password_chk" class="col-sm-2 col-form-label">암호 확인</label>
+                <div class="col-sm-4">
+                    <input type="password" id="m_password_chk" name="password_chk" class="form-control" required>
+                    <div class="invalid-feedback">
+                        암호 확인을 입력하세요.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="phone" class="col-sm-2 col-form-label">전화번호</label>
+                <div class="col-sm-4">
+                    <input type="tel" id="phone" name="phone_num" class="form-control" placeholder="010-1122-3344" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                    <div class="invalid-feedback">
+                        전화번호를 입력하세요.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="m_email" class="col-sm-2 col-form-label">이메일</label>
+                <div class="col-sm-4">
+                    <input type="email" id="m_email" name="email" class="form-control" placeholder="you@example.com" required>
+                    <div class="invalid-feedback">
+                        이메일을 입력하세요.
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">회원가입</button>
+                <button class="btn btn-secondary" type="button" onclick="moveMain();">메인화면</button>
+            </div>
+        </form>
+        <script src="{% static 'js/main/check.js' %}"></script>
+    </div>
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <span class="mb-3 mb-md-0 text-body-secondary">(주)KG에듀원 아이티뱅크 노량진 학원 2조 커뮤니티 사이트</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
