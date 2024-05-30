@@ -1,0 +1,8 @@
+{% extends 'main/main.html' %}
+{% block title %}    border delete 페이지{% endblock %}
+{% block content %}
+    {% block script %}
+        alert('{{ borderId }}번 게시글을 삭제했습니다.');
+        location.href = '/border/page/1';
+    {% endblock %}
+{% endblock %}

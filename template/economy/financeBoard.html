@@ -1,0 +1,82 @@
+{% extends 'main/main.html' %}
+{% block title %}경제게시판{% endblock %}
+{% block content %}
+<h3 class="text-center">게시판</h3>
+    <div style="height:540px">
+    <table class="table table-bordered border-primary text-center" 
+        style="width:70%" align="center">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+        </tr>
+
+        {% for value in border %}   
+        <tr>
+            <td>{{ value.id }}</td>
+            <!-- /economy/ : BD - app_name -->
+            <!-- FBBDTL : detail -->
+            <!-- <td><a href='/economy/{{value.id}}/'>{{ value.제목 }}</a></td> -->
+            <td><a href='{% url "BD:FBBDTL" value.id %}'><span class="d-inline-block text-truncate" style="max-width: 100px;">{{ value.title }}</span></a></td>
+            <td>{{ value.writer }}</td>
+            <td>{{ value.hits }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    <ul class="pagination d-flex justify-content-center">
+        {% if border.has_previous %}
+            <li class="page-item">
+                <a href="/ecnomony/financeboard/{{ border.previous_page_number }}/" 
+                    class="page-link">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a href="" class="page-link">Previous</a>
+            </li>
+        {% endif %}
+
+        {% for i in page_num %}
+            {% if border.number == i %}
+                <li class="page-item active"><a href="/economy/financeboard/{{i}}" class="page-link">{{i}}</a></li>    
+            {% else %}
+                <li class="page-item"><a href="/economy/financeboard/{{i}}/" class="page-link">{{i}}</a></li>    
+            {% endif %}
+        {% endfor %}
+        
+        {% if border.has_next %}
+            <li class="page-item">
+                <a href="/economy/financeboard/{{ border.next_page_number }}/" 
+                    class="page-link">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a href="" 
+                    class="page-link">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+
+
+
+    <div class="d-flex justify-content-center">
+        {% if user.is_active %}
+        <button type="button" class="btn btn-success btn-lg"
+            onclick="document.location.href='/economy/boardadd/'">글쓰기</button>
+        {% endif %}
+    </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    
+{% endblock %}
