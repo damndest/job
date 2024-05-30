@@ -6,7 +6,10 @@ function memberIdChk() {
 
         return;
     }
-
+    
+    /**
+     * ajax 기능을 위해 fetch API 사용(구 브라우저는 지원 안 됨, 예를 들면 IE, 작동안 할 경우 axios.jsm jquery.js 등 다른 라이브러리 사용 필요)
+     */
     const request = new Request(
         'member_id_check/',
         {

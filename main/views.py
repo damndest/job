@@ -78,3 +78,14 @@ def login(request):
             msg += "</script>";
 
             return HttpResponse(msg);
+
+@require_POST
+def logout(request):
+    auth.logout(request);
+
+    msg = "<script>";
+    msg += "alert('로그아웃 되었습니다.');";
+    msg += "location.href = '/main/';";
+    msg += "</script>";
+
+    return HttpResponse(msg);

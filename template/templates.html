@@ -60,8 +60,14 @@
                     </form> -->
                 </ul>
                 <div class="text-end">
+                  {% if user.is_authenticated %}
+                    <form name="logoutForm" method="post">{% csrf_token %}
+                        <button type="button" class="btn btn-outline-light me-2" onclick="doLogout();">로그아웃</button>
+                    </form>
+                  {% else %}
                     <button type="button" class="btn btn-outline-light me-2" onclick="loginView();">로그인</button>
                     <button type="button" class="btn btn-warning" onclick="memberJoin();">회원가입</button>
+                  {% endif %}
                 </div>
             </div>
         </div>
