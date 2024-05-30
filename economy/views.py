@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 def financeBoard(request, page):
     border = Border.objects.all().order_by('-id')
     
+
     # Paginator(데이터, 분할할 데이터 수)
     paging = Paginator(border, 10)
     
