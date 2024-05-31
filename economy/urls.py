@@ -9,6 +9,7 @@ urlpatterns = [
     path('boardadd/', views.boardAdd, name='FBBA'),
     re_path(r'boarddetail/(\d+)/$', views.boardDetail, name='FBBDTL'),
     re_path(r'boarddelete/(\d+)/$', views.boardDelete, name='FBBDEL'),
+    re_path(r'boardupdate/(\d+)/$', views.boardUpdate, name='FBBDUD'),
     path('financequiz/', views.financeQuiz, name='FQ'),
     path('domestic/', views.domestic, name='FD'),
     path('financerecent/', views.financeCondition, name='FR'),

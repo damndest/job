@@ -53,7 +53,7 @@ def boardAdd(request):
         border.writer = request.user.username;
         border.writetime = now
         border.updatetime = now
-        border.hits = request.POST['hits']
+        border.hits = request.POST['vcount']
         border.save()
 
         msg = "<script>";
@@ -71,36 +71,26 @@ def boardAdd(request):
             msg += "alert('로그인 후 이용이 가능합니다.');"
             # msg += "location.href='/account/login/';"
             msg += "</script>"
-            return HttpResponse(msg)
+            return HttpResponse(msg);
 
     # return render(request, 'economy/boardadd.html');
 
 def boardDetail(request, borderId):
     if request.user.is_active :
         border = Border.objects.values().get(id=borderId);
-        # Border.objects.filter(id=borderId).update(조회수 = border['조회수'] + 1)
+        Border.objects.filter(id=borderId).update(hits = border['hits'] + 1)
         # get(id=고유번호)
         # filter(컬럼명 = 값)
         # reply = Reply.objects.filter(border_id=borderId).values()
-        
-        try:
-            # dirList = os.listdir(settings.MEDIA_ROOT + "/" + str(borderId))
-
-            content = {
-                'border':border,
-                # 'reply':reply,
-                # 'dirList':dirList,
-            }
-        except:
-            content = {
+        content = {
             'border' : border,
-            # 'reply':reply,
-            }
+        # 'reply':reply,
+        }
         return render(request, 'economy/boarddetail.html', content);
     else:
         msg = "<script>";
         msg += "alert('로그인 후 사용 가능합니다.');"
-        msg += "location.href='/economy/financeboard/';"
+        msg += "location.href='/economy/financeboard/1';"
         msg += "</script>"
         return HttpResponse(msg);
 
@@ -121,9 +111,45 @@ def boardDelete(request, borderId):
     Border.objects.get(id=borderId).delete()
     # Reply.objects.filter(border_id=borderId).delete()
     content = {
-        'borderId':borderId
+        'borderId':borderId,
     }
-    return render(request, 'border/delete.html', content);
+    return render(request, 'economy/boarddelete.html', content);
+
+def boardUpdate(request, borderId):
+    border = Border.objects.get(id=borderId);
+    if request.method == 'GET':
+        if request.user.is_active:
+            if request.user.user_id == border.writer:
+                content = {
+                    'border' : border,
+                }
+                return render(request, 'economy/boardupdate.html', content);
+            else:
+                msg = "<script>"
+                msg += "alert('접근할 수 없는 URL 입니다.');"
+                msg += "location.href='/economy/financeboard/1';"
+                msg += "</script>"
+                return HttpResponse(msg);
+        else :
+            msg = "<script>"
+            msg += "alert('로그인이 되어있지 않습니다.');"
+            msg += "location.href='/economy/financeboard/1';"
+            msg += "</script>"
+            return HttpResponse(msg);
+
+    elif request.method == "POST":
+        now = datetime.now();
+        border.title = request.POST.get('title');
+        border.updatetime = now
+        border.contents = request.POST.get('contents');
+        border.writer = request.user.user_id;
+        border.save()
+
+        msg = "<script>"
+        msg += f"alert('{ border.id }번 게시글이 수정되었습니다.');"
+        msg += f"location.href='/economy/boarddetail/{ border.id }/';"
+        msg += "</script>"
+        return HttpResponse(msg);
 
 
 def financeQuiz(request):

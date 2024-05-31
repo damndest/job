@@ -16,10 +16,12 @@
     }
     .form-title {
         text-align: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
         margin-bottom: 30px;
     }
     .form-control {
-        border-radius: 5px;
+        border-radius: 10px;
     }
     .btn-save {
         width: 120px;
@@ -37,36 +39,42 @@
     }
     .card-title {
         font-size: 24px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 </style>
+
 <div class="container">
-    <div class="form-container mx-auto" style="max-width: 600px;">
-        <div class="card-header text-center">
-            <h3 class="card-title mb-3">글쓰기창</h3>
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="form-container">
+            <div class="card-header text-center">
+                <h3 class="card-title mb-3">글쓰기창</h3>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table class="table table-bordered text-center" style="width:100%;">
+                    <tr>
+                        <th class="align-middle" style="width: 20%;">제목</th>
+                        <td><input type="text" name="title" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle">내용</th>
+                        <td><textarea name="contents" class="form-control" rows="10" style="resize:none;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle">조회수</th>
+                        <td><input type="text" name="vcount" value="0" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit" class="btn btn-success btn-save">저장</button>
+                            <button type="reset" class="btn btn-danger btn-reset">다시시작</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <table class="table table-bordered border-primary text-center" style="width:100%;">
-                <tr>
-                    <th class="align-middle" style="width: 20%;">제목</th>
-                    <td><input type="text" name="title" class="form-control"></td>
-                </tr>
-                <tr>
-                    <th class="align-middle">내용</th>
-                    <td><textarea name="contents" class="form-control" rows="10" style="resize:none;"></textarea></td>
-                </tr>
-                <tr>
-                    <th class="align-middle">조회수</th>
-                    <td><input type="text" name="hits" value="0" class="form-control"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button type="submit" class="btn btn-success btn-save">저장</button>
-                        <button type="reset" class="btn btn-danger btn-reset">다시시작</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
     </div>
 </div>
+
 {% endblock %}
