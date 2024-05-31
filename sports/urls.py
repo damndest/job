@@ -19,6 +19,12 @@ urlpatterns = [
     path('baseball/board/post/', RedirectView.as_view(url='/sports/baseball/board/1', permanent=True)), # baseball/board/로 접속 시 baseball_board로 리다이렉트
     re_path(r'baseball/board/post/(\d+)/update/$', baseball_views.board_update, name="baseball_board_update"), # 게시물 수정 URL (매개변수는 게시물 번호)
     re_path(r'baseball/board/post/(\d+)/delete/$', baseball_views.board_delete, name="baseball_board_delete"), # 게시물 삭제 URL (매개변수는 게시물 번호)
+    re_path(r'baseball/board/post/(\d+)/like/$', baseball_views.board_like, name="baseball_board_like"), # 게시물 좋아요 URL (매개변수는 게시물 번호)
+    re_path(r'baseball/board/post/(\d+)/dislike/$', baseball_views.board_dislike, name="baseball_board_dislike"), # 게시물 좋아요 URL (매개변수는 게시물 번호)
+    re_path(r'baseball/board/post/(\d+)/addreply', baseball_views.board_add_reply, name="baseball_board_addreply"), # 게시물 댓글 추가 URL (매개변수는 게시물 번호)
+    re_path(r'baseball/board/post/delreply/(\d+)', baseball_views.board_del_reply, name="baseball_board_delreply"), # 게시물 댓글 삭제 URL (매개변수는 게시물 번호, 댓글 번호)
+    re_path(r'baseball/board/post/replylike/(\d+)', baseball_views.board_reply_like, name="baseball_board_addreply"), # 게시물 댓글 추가 URL (매개변수는 게시물 번호)
+    re_path(r'baseball/board/post/replydislike/(\d+)', baseball_views.board_reply_dislike, name="baseball_board_delreply"), # 게시물 댓글 삭제 URL (매개변수는 게시물 번호, 댓글 번호)
     # # 스포츠/축구
     # re_path(r'football/(\d+)/$', views.f_pagelist, name="f"), # 페이지 목록 URL (매개변수는 페이지 번호)
     # path('football/create/', views.f_create, name="f_c"), # 새 게시물 생성 URL

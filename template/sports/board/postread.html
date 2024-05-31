@@ -1,0 +1,143 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 조회 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        width: 100%;
+    }
+</style>
+
+
+<div id="wrapper">
+    <table class="text-center table table-bordered border- table-striped w-50 my-5" align="center">
+        <tr class="align-middle">
+            <th>제목</th>
+            <td colspan="3"><h2>{{post.post_title}}</h2></td>
+        </tr>
+        <tr>
+            <th>작성자</th>
+            {% if post.post_author_nn != post.post_author %}
+                <td>{{post.post_author_nn}}({{post.post_author}})</td>
+            {% else %}
+                <td>{{post.post_author}}</td>
+            {% endif %}
+            <th>조회수</th>
+            <td>{{post.post_views}}</td>
+        </tr>
+        <tr>
+            <th>작성일</th>
+            <td>{{post.post_wdate}}</td>
+            <th>최근 수정일</th>
+            <td>{{post.post_udate}}</td>
+        </tr>
+        <tr>
+            <th>내용</th>
+            <td colspan="3"><textarea class="form-control" style="resize:none" rows="15" disabled>{{post.post_content}}</textarea></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button class="btn btn-outline-success" onclick="location.href='/sports/baseball/board/post/{{post.post_id}}/like';">좋아요<br>{{post.post_like.count}}</button>
+                <button class="btn btn-outline-danger" onclick="location.href='/sports/baseball/board/post/{{post.post_id}}/dislike';">싫어요<br>{{post.post_dislike.count}}</button>
+            </td>
+        </tr>
+    </table>
+    <div class="d-flex justify-content-center my-5" style="clear:both">
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" onclick="location.href='/sports/baseball/board/1';">목록으로</button>
+        {% if request.user == post.post_member %}
+            <!-- 수정, 삭제 구현 후 링크 추가 필요 -->
+            <button type="button" class="btn btn-warning btn-lg mx-2" onclick="document.location.href='/sports/baseball/board/post/{{post.post_id}}/update';">수정</button>
+            <button type="button" class="btn btn-danger btn-lg mx-2" onclick="confirmDelete()">삭제</button>
+        {% endif %}
+    </div>
+    <div class="w-50 justify-content-center" style="margin-left:25%; clear:both;">
+        {% for r in reply %}
+        <div class="card my-2">
+            <div class="card-body">
+                <p style="font-weight: bold;">
+                    {{r.reply_author_nn}}
+                    {% if r.reply_author_nn != r.reply_author %}
+                        ({{r.reply_author}})
+                    {% endif %}
+                </p>
+                <p>{{r.reply_content}}</p>
+                <p style="font-size: 12px;">{{r.reply_wdate}}</p>
+                <button class="btn btn-sm btn-outline-success" onclick="location.href='/sports/baseball/board/post/replylike/{{r.reply_id}}';">
+                    좋아요
+                    {% if r.reply_like.count > 0 %}
+                        <span color="green">{{r.reply_like.count}}</span>
+                    {% endif %}
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="location.href='/sports/baseball/board/post/replydislike/{{r.reply_id}}';">
+                    싫어요
+                    {% if r.reply_dislike.count > 0 %}
+                        <span color="red">{{r.reply_dislike.count}}</span>
+                    {% endif %}
+                </button>
+                {% if r.reply_member == user %}
+                    <button class="btn btn-sm btn-danger" onclick="confirmReplyDelete('{{ r.reply_id|escapejs }}')">삭제</button>
+                {% endif %}
+            </div>  
+        </div>
+        {% endfor %}
+        {% if user.is_active %}
+        <div class="card">
+            <form method="post" action="{{game}}/board/post/{{post.post_id}}/addreply"> {% csrf_token %}
+                <div class="card-body">
+                    <h4>댓글 작성</h4>
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md mb-2 mb-md-0">
+                            <input type="text" name="reply" class="form-control" placeholder="댓글을 입력하세요">
+                        </div>
+                    </div>
+                    <div class="row align-items-center my-2">
+                            <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex align-items-center">
+                            <input type="text" name="author" class="form-control mx-2" id="reply_author" value="{{user.user_id}}" disabled>
+                            <input type="checkbox" class="form-check-input me-2" name="toggle" onclick="toggle_name(this);" id="toggleCheck">
+                            <span class="mx-3">닉네임 사용</span>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <input type="submit" value="등록" class="btn btn-success w-100 w-md-auto btn-sm">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}    
+    </div>
+
+    <div style="clear:both"></div>
+</div>
+<script>
+    let reply_author = document.getElementById("reply_author")
+    const toggle_name = (ch) => {
+        if (ch.checked) {
+            reply_author.removeAttribute("disabled");
+            reply_author.value = '{{user.user_name}}';
+        }
+        else {
+            reply_author.setAttribute("disabled", true);
+            reply_author.value = '{{user.user_id}}';
+        }
+    }
+</script>
+{% endblock %}
+
+{% block script %}
+<script>
+    const confirmDelete = () => {
+        if (confirm("게시물을 삭제하시겠습니까?")) {
+		    document.location.href='/sports/{{game}}/board/post/{{post.post_id}}/delete';
+	    }
+    }
+    const confirmReplyDelete = (reply_no) => {
+        if (confirm("댓글을 삭제하시겠습니까?")) {
+            document.location.href = document.location.href='/sports/{{game}}/board/post/delreply/' + reply_no;
+        }
+    }
+</script>
+{% endblock %}

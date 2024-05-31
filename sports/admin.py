@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import BaseballPost, BaseballPostComment
+from .models import SportsPost, SportsReply, SportsTeam, SportsPlayer, SportsTeamTalk, SportsPlayerTalk
 
-class BaseballPostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'author')
+class SportsPostAdmin(admin.ModelAdmin):
+    list_display = ('post_id', 'post_title', 'post_author')
 
-class BaseballPostCommentAdmin(admin.ModelAdmin):
-    list_display = ('post_id', 'author')
+class SportsReplyAdmin(admin.ModelAdmin):
+    list_display = ('reply_id', 'reply_author')
 
-admin.site.register(BaseballPost, BaseballPostAdmin)
-admin.site.register(BaseballPostComment, BaseballPostCommentAdmin)
+admin.site.register(SportsPost, SportsPostAdmin)
+admin.site.register(SportsReply, SportsReplyAdmin)

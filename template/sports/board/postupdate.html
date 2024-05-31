@@ -22,11 +22,25 @@
         <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
             <tr>
                 <th class="align-middle">제목</th>
-                <td><input type="text" name="title" class="form-control" value="{{post.title}}"></td>
+                <td colspan="2"><input type="text" name="title" class="form-control" value="{{post.post_title}}"></td>
+            </tr>
+            <tr>
+                <th class="align-middle">작성자</th>
+                <td><input type="text" name="author" class="form-control" id="author" disabled value="{{post.post_author_nn}}"></td>
+                <td style="width:20%;" class="align-middle">
+                    {% if post.post_author_nn == user.user_id %}
+                        <input type="checkbox" class="form-check-input" disabled>
+                    {% else %}
+                        <input type="checkbox" class="form-check-input" checked disabled>
+                    {% endif %}
+                    <label class="form-check-label" for="flexCheckDefault">
+                        닉네임 사용
+                    </label>
+                </td>
             </tr>
             <tr>
                 <th class="align-middle">내용</th>
-                <td><textarea name="content" class="form-control" rows="15" style="resize:none;">{{post.content}}</textarea></td>
+                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;">{{post.post_content}}</textarea></td>
             </tr>
         </table>
         <!-- 버튼 영역 적용 필요 -->
