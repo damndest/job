@@ -69,7 +69,7 @@ def login(request):
 
         if member is not None:
             auth.login(request, member);
-        
+            
             return redirect("/main/");
         else:
             msg = "<script>";

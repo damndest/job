@@ -36,7 +36,3 @@ function memberIdChk() {
             }
         });
 }
-
-function moveMain() {
-    location.href = "/main/";
-}

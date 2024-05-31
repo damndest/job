@@ -20,4 +20,4 @@ class Member(AbstractUser):
     REQUIRED_FIELDS = ["username", "email"];
 
     def __str__(self):
-        return self.user_name;
+        return self.user_id;
