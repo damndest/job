@@ -17,7 +17,7 @@ class Member(AbstractUser):
     objects = UserManager();
 
     USERNAME_FIELD = "user_id";
-    REQUIRED_FIELDS = ["email"];
+    REQUIRED_FIELDS = ["username", "email"];
 
     def __str__(self):
         return self.user_name;

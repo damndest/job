@@ -1,0 +1,45 @@
+{% extends 'templates.html' %}
+
+{% block title %}알쓸여잡 음식 지역별 페이지{% endblock %}
+
+{% block content %}
+<div class="container px-4 py-5" style="height: 46rem;">
+    <h3>음식 지역별</h3>
+
+    <table class="table table-bordered mt-4">
+        <thead class="table-light text-center">
+            <th scope="col" style="width: 3rem;">
+                <div>
+                    <input class="form-check-input" type="checkbox" id="del-all-food" value="" aria-label="삭제 체크 박스">
+                </div>
+            </th>
+            <th scope="col" style="width: 4rem;">번호</th>
+            <th scope="col" class="w-50">제목</th>
+            <th scope="col">지역</th>
+            <th scope="col" style="width: 10rem;">수정일</th>
+            <th scope="col" style="width: 5rem;">조회수</th>
+        </thead>
+        <tbody>
+          {% for food in food_list %}
+            <th scope="row" class="text-center">
+                <div>
+                    <input class="form-check-input" type="checkbox" id="del-food-{{food.food_no}}" value="{{food.food_no}}" aria-label="삭제 체크 박스">
+                </div>
+            </th>
+            <td>{{forloop.counter}}</td>
+            <td>{{food.title}}</td>
+            <td>{{food.area_name}}</td>
+            <td>{{food.modify_date}}</td>
+            <td>{{food.see_cnt}}</td>
+          {% empty %}
+            <td colspan="6" class="text-center">데이터가 존재하지 않습니다.</td>
+          {% endfor %}
+        </tbody>
+    </table>
+    <hr class="my-5">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn btn-primary me-md-2">추가</button>
+        <button type="button" class="btn btn-secondary">목록</button>
+    </div>
+</div>
+{% endblock %}
