@@ -64,6 +64,10 @@
         #sportsetc-button {
             background-image: url("{% static 'imgs/sports/sportsetc.jpg' %}");
         }
+        #back-button {
+            background-color: rgb(33, 37, 41);
+            color: white;
+        }
     </style>
     <div id="wrapper pb-4">
         <div id="main-title">
@@ -73,13 +77,17 @@
             <div class="sect-button" id="baseball-button"></div>
             <div class="sect-text">야구</div>
         </div>
-        <div class="sect" style="background: linear-gradient(to right, lightgreen, transparent)" onclick="location.href='#'">
+        <div class="sect" style="background: linear-gradient(to right, lightgreen, transparent)" onclick="location.href='/sports/football/'">
             <div class="sect-button" id="football-button"></div>
             <div class="sect-text">축구</div>
         </div>
-        <div class="sect"  style="background: linear-gradient(to right, burlywood, transparent)" onclick="location.href='#'">
+        <div class="sect"  style="background: linear-gradient(to right, burlywood, transparent)" onclick="location.href='/sports/sportsetc/'">
             <div class="sect-button" id="sportsetc-button"></div>
             <div class="sect-text">기타</div>
+        </div>
+        <div class="sect"  style="background: linear-gradient(to right, silver, transparent)" onclick="location.href='/main'">
+            <div class="sect-button d-flex justify-content-center align-items-center" id="back-button"><h2 class="align-middle text-center">알쓸여잡</h2></div>
+            <div class="sect-text">메인으로</div>
         </div>
     </div>
 

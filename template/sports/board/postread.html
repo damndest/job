@@ -40,17 +40,17 @@
         </tr>
         <tr>
             <td colspan="4">
-                <button class="btn btn-outline-success" onclick="location.href='/sports/baseball/board/post/{{post.post_id}}/like';">좋아요<br>{{post.post_like.count}}</button>
-                <button class="btn btn-outline-danger" onclick="location.href='/sports/baseball/board/post/{{post.post_id}}/dislike';">싫어요<br>{{post.post_dislike.count}}</button>
+                <button class="btn btn-outline-success" onclick="location.href='/sports/{{game}}/board/post/{{post.post_id}}/like';">좋아요<br>{{post.post_like.count}}</button>
+                <button class="btn btn-outline-danger" onclick="location.href='/sports/{{game}}/board/post/{{post.post_id}}/dislike';">싫어요<br>{{post.post_dislike.count}}</button>
             </td>
         </tr>
     </table>
     <div class="d-flex justify-content-center my-5" style="clear:both">
             <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
-            <button type="button" class="btn btn-primary btn-lg mx-2" onclick="location.href='/sports/baseball/board/1';">목록으로</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" onclick="location.href='/sports/{{game}}/board/1';">목록으로</button>
         {% if request.user == post.post_member %}
             <!-- 수정, 삭제 구현 후 링크 추가 필요 -->
-            <button type="button" class="btn btn-warning btn-lg mx-2" onclick="document.location.href='/sports/baseball/board/post/{{post.post_id}}/update';">수정</button>
+            <button type="button" class="btn btn-warning btn-lg mx-2" onclick="document.location.href='/sports/{{game}}/board/post/{{post.post_id}}/update';">수정</button>
             <button type="button" class="btn btn-danger btn-lg mx-2" onclick="confirmDelete()">삭제</button>
         {% endif %}
     </div>
@@ -66,13 +66,13 @@
                 </p>
                 <p>{{r.reply_content}}</p>
                 <p style="font-size: 12px;">{{r.reply_wdate}}</p>
-                <button class="btn btn-sm btn-outline-success" onclick="location.href='/sports/baseball/board/post/replylike/{{r.reply_id}}';">
+                <button class="btn btn-sm btn-outline-success" onclick="location.href='/sports/{{game}}/board/post/replylike/{{r.reply_id}}';">
                     좋아요
                     {% if r.reply_like.count > 0 %}
                         <span color="green">{{r.reply_like.count}}</span>
                     {% endif %}
                 </button>
-                <button class="btn btn-sm btn-outline-danger" onclick="location.href='/sports/baseball/board/post/replydislike/{{r.reply_id}}';">
+                <button class="btn btn-sm btn-outline-danger" onclick="location.href='/sports/{{game}}/board/post/replydislike/{{r.reply_id}}';">
                     싫어요
                     {% if r.reply_dislike.count > 0 %}
                         <span color="red">{{r.reply_dislike.count}}</span>

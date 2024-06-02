@@ -45,13 +45,17 @@
                             <td>{{value.post_author}}</td>
                         {% endif %}
                         <td>{{value.post_views}}</td>
-                        <td>0</td>
-                        {% if value.post_like.count > value.post_dislike.count %}
-                            <td style="color:green">{% substract value.post_like.count value.post_dislike.count %}</td>
-                        {% elif value.post_like.count < value.post_dislike.count %}
-                            <td style="color:red">{% substract value.post_like.count value.post_dislike.count %}</td>
+                        {% if value.reply_count > 0 %}
+                            <td style="color:blue; font-weight: bold;">{{value.reply_count}}</td>
                         {% else %}
-                            <td>{% substract value.post_like.count value.post_dislike.count %}</td>
+                            <td>{{value.reply_count}}</td>
+                        {% endif %}
+                        {% if value.like_count > value.dislike_count %}
+                            <td style="color:green; font-weight: bold;">{% substract value.like_count value.dislike_count %}</td>
+                        {% elif value.like_count < value.dislike_count %}
+                            <td style="color:red; font-weight: bold;">{% substract value.like_count value.dislike_count %}</td>
+                        {% else %}
+                            <td>{% substract value.like_count value.dislike_count %}</td>
                         {% endif %}
                     </tr>
                 {% endfor %}
@@ -88,6 +92,7 @@
     <!-- 버튼 영역 -->
     <div class="d-flex justify-content-center">
         <!-- user.active 적용 필요 -->
+        <button type="button" class="btn btn-primary btn-lg mx-2" onclick="document.location.href='/sports/{{game}}'">메인으로</button>
         {% if user.is_active %}
             <button type="button" class="btn btn-success btn-lg mx-2" onclick="document.location.href='/sports/{{game}}/board/create'">글쓰기</button>
         {% endif %}

@@ -3,7 +3,7 @@ from . import base_views, board_views
 
 # 야구 메인 페이지 뷰
 def baseball(request):
-    return render(request, 'sports/baseball.html')
+    return base_views.gamepage(request, 'baseball')
 
 # 야구 게시판 목록 뷰
 def boardlist(request, page):
@@ -41,9 +41,11 @@ def board_add_reply(request, post_id):
 def board_del_reply(request, reply_id):
     return board_views.del_reply(request, 'baseball', reply_id)
 
+# 야구 댓글 좋아요 뷰
 def board_reply_like(request, reply_id):
     return board_views.reply_like(request, 'baseball', reply_id)
 
+# 야구 댓글 좋아요 뷰
 def board_reply_dislike(request, reply_id):
     return board_views.reply_dislike(request, 'baesball', reply_id)
     

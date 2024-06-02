@@ -26,7 +26,7 @@ class SportsReply(models.Model):
     reply_content = models.CharField(max_length=255, null=False, blank=False) # 댓글 내용
     reply_wdate = models.DateTimeField(null=False) # 최초 작성일
     reply_member = models.ForeignKey(Member, on_delete=models.CASCADE) # 댓글 작성자 인덱스(FK)
-    post_id = models.ForeignKey(SportsPost, on_delete=models.CASCADE) # 댓글의 원 글 아이디(FK)
+    post_id = models.ForeignKey(SportsPost, on_delete=models.CASCADE, related_name='post_reply') # 댓글의 원 글 아이디(FK)
     reply_like = models.ManyToManyField(Member, related_name='liked_reply') # 좋아요 누른 사람(Member 객체와 다대다 관계)
     reply_dislike = models.ManyToManyField(Member, related_name='disliked_reply') # 싫어요 누른 사람(Member 객체와 다대다 관계)
 

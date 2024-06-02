@@ -4,4 +4,5 @@ register = template.Library()
 
 @register.simple_tag
 def substract(value, arg):
-    return value - arg
+    print(value, arg)
+    return int(value) - int(arg)

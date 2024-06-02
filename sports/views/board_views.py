@@ -46,7 +46,7 @@ def get_page_num(page:str, paging:Paginator) -> range:
 def need_login() -> HttpResponse:
     msg = "<script>"
     msg += "alert('로그인 후 이용하세요.');"
-    msg += f"location.href='/login';"
+    msg += f"location.href='/main/login';"
     msg += "</script>"
     return HttpResponse(msg)
 
@@ -78,9 +78,15 @@ def unknown_error(game:str) -> HttpResponse:
 
 # 자유게시판 글 목록 뷰 함수
 def boardlist(request, game, page):
-    post = SportsPost.objects.filter(post_game=game).order_by('-post_id')
+    post_list = SportsPost.objects.filter(post_game=game).order_by('-post_id').values('post_id', 'post_title', 'post_author', 'post_author_nn', 'post_views')
+
+    for post in post_list:
+        post_id = post['post_id']
+        post['reply_count'] = SportsPost.objects.get(post_id=post_id).post_reply.count()
+        post['like_count'] = SportsPost.objects.get(post_id=post_id).post_like.count()
+        post['dislike_count'] = SportsPost.objects.get(post_id=post_id).post_dislike.count()
     # 페이징 설정 부분
-    paging = Paginator(post, POST_PER_PAGE)
+    paging = Paginator(post_list, POST_PER_PAGE)
     page_num = get_page_num(page, paging)
     try:
         board = paging.page(page)
@@ -92,7 +98,6 @@ def boardlist(request, game, page):
         'page' : page,
         'post' : board,
         'page_num' : page_num,
-        # 'reply' : ...
     }
     return render(request, 'sports/board/postlist.html', content)
 
