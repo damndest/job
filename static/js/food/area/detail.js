@@ -1,3 +1,7 @@
 function moveModFood(foodNo) {
-    location.href = "/foods/area/" + parseInt(foodNo) + "/mod/";
+    location.href = "/foods/area/" + foodNo + "/mod/";
+}
+
+function moveDelAreaFood(foodNo) {
+    location.href = "/foods/area/" + foodNo + "/del/";
 }

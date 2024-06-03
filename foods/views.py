@@ -108,8 +108,19 @@ def mod_foods_area(request, food_no):
         food.save();
 
         msg = "<script>";
-        msg += f"alert('{food_no} 번 게시글이 수정 되었습니다.');";
+        msg += f"alert('{food_no}번 게시글이 수정 되었습니다.');";
         msg += f"location.href = '/foods/area/{food_no}/';";
         msg += "</script>";
 
         return HttpResponse(msg);
+
+@require_http_methods(["GET", "POST"])
+def del_foods_area(request, food_no):
+    Food.objects.get(food_no=food_no).delete();
+
+    msg = "<script>";
+    msg += f"alert('{food_no}번 게시글을 삭제 했습니다.');";
+    msg += "location.href = '/foods/area/';";
+    msg += "</script>";
+
+    return HttpResponse(msg);
