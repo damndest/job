@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.decorators.http import require_http_methods, require_GET, require_POST
+from django.views.decorators.http import require_http_methods, require_GET
 from django.http import HttpResponse
 from foods.models import Member, Food
 from datetime import datetime

@@ -19,7 +19,7 @@
               {% if user.is_active and user.is_superuser %}
                 <th scope="col" style="width: 3rem;">
                     <div>
-                        <input class="form-check-input" type="checkbox" id="del-all-food" value="" aria-label="삭제 체크 박스">
+                        <input class="form-check-input" type="checkbox" id="del-all-food" value="" aria-label="삭제 체크 박스" onclick="toggleAllCheck(this);">
                     </div>
                 </th>
               {% endif %}
@@ -31,7 +31,7 @@
                 <th scope="col" style="width: 5rem;">조회수</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="food-area-tbd">
           {# 슈퍼유저(관리자)만 삭제 가능하게, 슈퍼유저만 삭제 체크 박스 보임 처리 추가 #}
           
           {% if user.is_active and user.is_superuser %}
