@@ -1,6 +1,6 @@
 {% extends 'templates.html' %}
 
-{% block title %}알쓸여잡 음식 지역별 페이지{% endblock %}
+{% block title %}알쓸여잡 음식 지역별 수정 페이지{% endblock %}
 
 {% load static %}
 
@@ -10,12 +10,12 @@
 
 {% block content %}
 <div class="container px-4 py-5" style="height: 46rem;">
-    <h4 class="mb-3">음식 추가</h4>
-    <form name="addFoodForm" class="needs-validation" method="post" novalidate>{% csrf_token %}
+    <h4 class="mb-3">음식 지역별 수정</h4>
+    <form name="modFoodForm" class="needs-validation" method="post" novalidate>{% csrf_token %}
         <div class="mb-3 row">
             <label for="food_writer" class="col-sm-2 col-form-label">작성자</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="food_writer" name="writer" required>
+                <input type="text" class="form-control" id="food_writer" name="writer" value="{{food.writer}}" required>
                 <div class="invalid-feedback">
                     작성자를 입력하세요.
                 </div>
@@ -24,7 +24,7 @@
         <div class="mb-3 row">
             <label for="food_title" class="col-sm-2 col-form-label">제목</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="food_title" name="title" required>
+                <input type="text" class="form-control" id="food_title" name="title" value="{{food.title}}" required>
                 <div class="invalid-feedback">
                     제목을 입력하세요.
                 </div>
@@ -33,7 +33,7 @@
         <div class="mb-3 row">
             <label for="food_content" class="col-sm-2 col-form-label">내용</label>
             <div class="col-sm-4">
-                <textarea class="form-control" id="food_content" name="content" rows="10" style="resize: none;" required></textarea>
+                <textarea class="form-control" id="food_content" name="content" rows="10" style="resize: none;" required>{{food.content}}</textarea>
                 <div class="invalid-feedback">
                     내용을 입력하세요.
                 </div>
@@ -43,26 +43,19 @@
             <label for="food_area" class="col-sm-2 col-form-label">지역명</label>
             <div class="col-sm-4">
                 <select class="form-select" id="food_area" name="area_name">
-                    <option value="노량진">노량진</option>
+                  {% if food.area_name == '노량진' %}
+                    <option value="노량진" selected>노량진</option>
                     <option value="봉천">봉천</option>
-                </select>
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label for="food_type" class="col-sm-2 col-form-label">음식 종류</label>
-            <div class="col-sm-4">
-                <select class="form-select" id="food_type" name="food_type">
-                    <option>전체</option>
-                    <option value="한식">한식</option>
-                    <option value="중식">중식</option>
-                    <option value="일식">일식</option>
-                    <option value="아시아">아시아</option>
+                  {% elif food.area_name == '봉천' %}
+                    <option value="노량진">노량진</option>
+                    <option value="봉천" selected>봉천</option>
+                  {% endif %}
                 </select>
             </div>
         </div>
         <hr class="my-5">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-success me-md-2">저장</button>
+            <button type="submit" class="btn btn-success me-md-2">수정</button>
             <button type="button" class="btn btn-secondary" onclick="moveMain();">메인화면</button>
         </div>
     </form>

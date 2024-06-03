@@ -34,7 +34,7 @@
     <hr class="my-5">
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       {% if user.username == user_id %}
-        <button type="button" class="btn btn-primary me-md-2" onclick="moveModFood();">수정</button>
+        <button type="button" class="btn btn-primary me-md-2" onclick="moveModFood('{{food.food_no}}');">수정</button>
       {% endif %}
 
         <button type="button" class="btn btn-secondary" onclick="moveMain();">메인화면</button>
