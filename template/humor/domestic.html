@@ -1,9 +1,23 @@
 {% extends "templates.html" %}
 
-{% block title %}국내유머{% endblock %}
+{% block title %}글쓰기{% endblock %}
 
 {% block content %}
-    <h1>국내유머</h1>
+    <h1>글쓰기</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" required><br>
+        
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" required></textarea><br>
+        
+        <label for="image">이미지:</label>
+        <input type="file" id="image" name="image"><br>
+        
+        <button type="submit">작성</button>
+    </form>
+
     {% if user.is_authenticated %}
         <a href="{% url 'write_post' %}">글쓰기</a>
     {% else %}
@@ -11,7 +25,12 @@
     {% endif %}
     <ul>
         {% for post in posts %}
-            <li><strong>{{ post.title }}</strong>: {{ post.content }}</li>
+            <li>
+                <a href="{% url 'post_detail' post.id %}"><strong>{{ post.title }}</strong></a>: {{ post.content }}
+                <br>조회수: {{ post.views }}
+                <br>좋아요: {{ post.likes }} <a href="{% url 'like_post' post.id %}">좋아요</a>
+                <br>싫어요: {{ post.dislikes }} <a href="{% url 'dislike_post' post.id %}">싫어요</a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
