@@ -48,3 +48,21 @@ def add_foods(request):
         msg += "</script>";
 
         return HttpResponse(msg);
+
+@require_GET
+def foods_area_detail(request, food_no):
+    food = Food.objects.values().get(food_no=food_no);
+    
+    if request.user.is_active:
+        member = Member.objects.values().get(member_idx=food['member_idx_id']);
+        
+        content = {
+            "food": food,
+            "user_id": member["user_id"]
+        };
+    else:
+        content = {
+            "food": food
+        };
+
+    return render(request, 'foods/area/detail.html', content);

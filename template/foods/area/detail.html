@@ -1,0 +1,43 @@
+{% extends 'templates.html' %}
+
+{% block title %}알쓸여잡 음식 지역별 상세 페이지{% endblock %}
+
+{% load static %}
+
+{% block script %}
+<script src="{% static 'js/main/comm.js' %}"></script>
+<script src="{% static 'js/food/area/detail.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 py-5" style="height: 46rem;">
+    <h4 class="mb-3">{{food.title}}</h4>
+    <table class="table">
+        <tr>
+            <th class="col-1">번호</th>
+            <td class="col-1">{{food.food_no}}</td>
+            <th class="col-1">작성자</th>
+            <td>{{food.writer}}</td>
+            <th class="col-1">작성일</th>
+            <td class="col-2">{{food.modify_date|date:'Y-m-d'}}</td>
+        </tr>
+        <tr style="height: 26rem;">
+            <td colspan="6">{{food.content}}</td>
+        </tr>
+        <tr>
+            <th class="col-1">지역</th>
+            <td colspan="3">{{food.area_name}}</td>
+            <th class="col-1">조회수</th>
+            <td>{{food.see_cnt}}</td>
+        </tr>
+    </table>
+    <hr class="my-5">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      {% if user.username == user_id %}
+        <button type="button" class="btn btn-primary me-md-2" onclick="moveModFood();">수정</button>
+      {% endif %}
+
+        <button type="button" class="btn btn-secondary" onclick="moveMain();">메인화면</button>
+    </div>
+</div>
+{% endblock %}

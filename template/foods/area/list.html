@@ -36,8 +36,8 @@
                       <input class="form-check-input" type="checkbox" id="del-food-{{food.food_no}}" value="{{food.food_no}}" aria-label="삭제 체크 박스">
                   </div>
                 </th>
-                <td class="text-center">{{forloop.counter}}</td>
-                <td>{{food.title}}</td>
+                <td class="text-center">{{food.food_no}}</td>
+                <td><a href="{% url 'foods:area_detail' food.food_no %}">{{food.title}}</a></td>
                 <td>{{food.area_name}}</td>
                 <td class="text-center">{{food.modify_date|date:'Y-m-d'}}</td>
                 <td class="text-center">{{food.see_cnt}}</td>
