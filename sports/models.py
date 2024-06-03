@@ -35,6 +35,7 @@ class SportsTeam(models.Model):
     team_id = models.AutoField(primary_key=True) # 팀 ID(PK)
     team_name = models.CharField(max_length=255, blank=False, null=False) # 팀 명
     team_game = models.CharField(max_length=64, null=False) # 팀 종목(야구, 축구, 기타)
+    team_league = models.CharField(max_length=128, null=True) # 팀 소속 리그
     team_intro = models.CharField(max_length=255, null=True) # 팀 요약 설명
     team_hometown = models.CharField(max_length=255, null=True) # 팀 연고지
     team_manager = models.CharField(max_length=255, null=True) # 팀 감독

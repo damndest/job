@@ -13,7 +13,7 @@
     #wrapper {
         margin: 50px 10%;
         text-align: center;
-        height: 800px;
+        min-height: 800px;
     }
     #title-section {
         /*position: relative;*/
@@ -39,6 +39,19 @@
     }
     .card {
         height: 20vh;
+        transition: 0.2s;
+    }
+    .card h2 {
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    .card:hover {
+        background-color: silver;
+        box-shadow: lightgrey 3px 3px 3px 3px;
+    }
+    .card:hover h2 {
+        font-weight: bolder;
+        font-size: 40px;
     }
 </style>
 {% endwith %}
@@ -47,13 +60,13 @@
         <h1 id="title-text">{{gamename}}</h1>
     </div>
     <div class="card-group">
-        <div class="card" onclick="location.href='/sports/{{game}}/board/1';">
+        <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports/{{game}}/board/1';">
             <h2>자유게시판</h2>
         </div>
-        <div class="card">
-            <h2>팀 페이지</h2>
+        <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center">
+            <h2 class="text-center">팀 페이지</h2>
         </div>
-        <div class="card">
+        <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center">
             <h2>선수 페이지</h2>
         </div>
       </div>

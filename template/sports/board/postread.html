@@ -95,13 +95,11 @@
                         </div>
                     </div>
                     <div class="row align-items-center my-2">
-                            <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex align-items-center">
-                            <input type="text" name="author" class="form-control mx-2" id="reply_author" value="{{user.user_id}}" disabled>
-                            <input type="checkbox" class="form-check-input me-2" name="toggle" onclick="toggle_name(this);" id="toggleCheck">
-                            <span class="mx-3">닉네임 사용</span>
-                        </div>
-                        <div class="col-12 col-md-auto">
-                            <input type="submit" value="등록" class="btn btn-success w-100 w-md-auto btn-sm">
+                        <div class="d-flex align-items-center">
+                                <input type="text" name="author" class="form-control w-50" id="reply_author" value="{{user.user_id}}" disabled>
+                                <input type="checkbox" class="form-check-input me-2 mx-3" name="toggle" onclick="toggle_name(this);" id="toggleCheck">
+                                <span>닉네임 사용</span>
+                                <input type="submit" value="등록" class="btn btn-success mx-3 w-md-auto btn-sm">
                         </div>
                     </div>
                 </div>
