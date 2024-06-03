@@ -1,0 +1,79 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 조회 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        min-width: 1000px;
+    }
+    #main-title {
+        margin: 50px 10%;
+        text-align: center;
+        padding: 10px;
+        border-bottom: 2px solid silver;
+    }
+    {% for team in team_list %}
+        .team-{{ team.team_id }} {
+            background-color: #{{ team.team_bgcolor1 }};
+            border-radius: 20px;
+            border: 2px solid #{{ team.team_bgcolor2 }};
+        }
+        .team-{{ team.team_id }} h2 {
+            margin-left: 5%;
+            display: inline-block;
+            color: #{{team.team_textcolor1}};
+            font-weight: bolder;
+            {% if team.team_textcolor1 != team.team_bgcolor2 %}
+                text-shadow: -2px 0px #{{team.team_bgcolor2}},  0px 2px #{{team.team_bgcolor2}}, 2px 0px #{{team.team_bgcolor2}}, 0px -2px #{{team.team_bgcolor2}};
+            {% endif %}
+        }
+    {% endfor %}
+    .team {
+        width: 80%;
+        height: 150px;
+        transition: 0.3s;
+    }
+    .team:hover {
+        width: 100%;
+        height: 200px;
+    }
+    .img-are {
+        height: 100%;
+    }
+    .team-img {
+        display: inline-block;
+        height: 100%;
+        max-width: 20%;
+        
+    }
+    .league-img {
+        display: inline-block;
+        height: 100%;
+        max-width: 10%;
+    }
+</style>
+
+
+<div id="wrapper">
+    <div id="main-title">
+        <h1>{{gamename}} 팀 페이지</h1>
+    </div>
+    <div class="w-75" style="margin-left:12%; clear:both;">
+        {% for team in team_list %}
+            <div class="team my-5 team-{{ team.team_id }}" onclick="location.href='/sports/{{game}}/team/{{team.team_id}}';">
+                {% with league_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_league|add:".svg" %}
+                    <img class="league-img" src="{% static league_image_path %}">
+                {% endwith %}
+                {% with team_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_name|add:".svg" %}
+                    <img class="team-img" src="{% static team_image_path %}">
+                {% endwith %}
+                <h2 class="align-middle">{{team.team_kname}}</h2>
+            </div>
+        {% endfor %}  
+    </div>
+</div>
+
+{% endblock %}

@@ -34,16 +34,19 @@ class SportsReply(models.Model):
 class SportsTeam(models.Model):
     team_id = models.AutoField(primary_key=True) # 팀 ID(PK)
     team_name = models.CharField(max_length=255, blank=False, null=False) # 팀 명
+    team_kname = models.CharField(max_length=255, blank=False, null=False) # 팀 한글 명
+    team_ename = models.CharField(max_length=255, null=False) # 팀 영문 명(언더바 없음)
     team_game = models.CharField(max_length=64, null=False) # 팀 종목(야구, 축구, 기타)
     team_league = models.CharField(max_length=128, null=True) # 팀 소속 리그
+    team_league_k = models.CharField(max_length=123, null=True) # 팀 소속 리그(한글)
     team_intro = models.CharField(max_length=255, null=True) # 팀 요약 설명
     team_hometown = models.CharField(max_length=255, null=True) # 팀 연고지
     team_manager = models.CharField(max_length=255, null=True) # 팀 감독
     team_site = models.CharField(max_length=512, null=True) # 팀 공식 사이트 주소
-    team_color1 = models.CharField(max_length=16, null=True) # 팀 컬러 1
-    team_color2 = models.CharField(max_length=16, null=True) # 팀 컬러 2
-    team_color3 = models.CharField(max_length=16, null=True) # 팀 컬러 1
-    team_color4 = models.CharField(max_length=16, null=True) # 팀 컬러 2
+    team_bgcolor1 = models.CharField(max_length=16, null=True) # 팀 심볼컬러 1
+    team_bgcolor2 = models.CharField(max_length=16, null=True) # 팀 심볼컬러 2
+    team_textcolor1 = models.CharField(max_length=16, null=True) # 팀 텍스트 컬러 1
+    team_textcolor2 = models.CharField(max_length=16, null=True) # 팀 텍스트 2
     team_fans = models.ManyToManyField(Member, related_name='liked_team') # 팀과 팬 관계(팔로우) 맺은 사람(Member 객체와 다대다 관계)
 
 # 스포츠 선수 테이블

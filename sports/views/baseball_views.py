@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
-from . import base_views, board_views
+from . import base_views, board_views, team_views
 
 # 야구 메인 페이지 뷰
 def baseball(request):
     return base_views.gamepage(request, 'baseball')
+
+# ================== 게시판 뷰 ==================
 
 # 야구 게시판 목록 뷰
 def boardlist(request, page):
@@ -47,5 +49,13 @@ def board_reply_like(request, reply_id):
 
 # 야구 댓글 좋아요 뷰
 def board_reply_dislike(request, reply_id):
-    return board_views.reply_dislike(request, 'baesball', reply_id)
+    return board_views.reply_dislike(request, 'baseball', reply_id)
     
+
+# ================== 팀 뷰 ==================
+
+def teamlist(request):
+    return team_views.teamlist(request, 'baseball')
+
+def team_detail(request, team_id):
+    return team_views.team_detail(request, 'baseball', team_id)

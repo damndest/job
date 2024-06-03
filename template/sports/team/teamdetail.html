@@ -1,0 +1,28 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 조회 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        width: 100%;
+    }
+</style>
+
+
+<div id="wrapper" align="center">
+    {% with team_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_name|add:".svg" %}
+        <img src="{% static team_image_path %}">
+    {% endwith %}
+    <h1>{{team.team_kname}}</h1>
+    <h2>{{team.team_ename}}</h2>
+    <h3>{{team.team_intro}}</h3>
+    <p>감독 : {{team.team_manager}}</p>
+    <p>연고지 : {{team.team_hometown}}</p>
+    <p>소속 리그 : {{team.team_league_k}}</p>
+    <a href="{{team.team_site}}">공식 홈페이지</a>
+</div>
+
+{% endblock %}
