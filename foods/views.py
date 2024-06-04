@@ -5,6 +5,8 @@ from main.models import Member
 from foods.models import Food, FoodReply
 from datetime import datetime
 import json
+import os
+from django.conf import settings
 
 # 로그인 화면 강제 반환 함수
 def return_login():
@@ -14,6 +16,23 @@ def return_login():
     msg += "</script>";
 
     return HttpResponse(msg);
+
+# 음식 지역별 파일 업로드
+def file_upload_foods_area(request, food_no):
+    dir_name = str(food_no);
+
+    # 파일 경로는 각 팀원마다 다르게 지정(여기는 음식 지역별 이므로 음식 지역별 경로 설정함)
+    path = settings.MEDIA_ROOT + "/food/area/" + dir_name + "/";
+
+    if not os.path.isdir(path):
+        # mkdir 은 이미 생성한 폴더가 있으면 오류 발생하므로 makedirs 메서드로 변경
+        os.makedirs(path, exist_ok=True);
+
+    for f in request.FILES.getlist("files"):
+        upload_file = open(path + str(f), 'wb');
+
+        for chunk in f.chunks():
+            upload_file.write(chunk);
 
 @require_GET
 def foods_area(request):
@@ -47,6 +66,8 @@ def add_foods(request):
         );
 
         food.save();
+
+        file_upload_foods_area(request, food.food_no);
 
         msg = "<script>";
         msg += "alert('음식 게시글이 저장되었습니다.');";

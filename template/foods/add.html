@@ -11,7 +11,7 @@
 {% block content %}
 <div class="container px-4 py-5" style="height: 46rem;">
     <h4 class="mb-3">음식 추가</h4>
-    <form name="addFoodForm" class="needs-validation" method="post" novalidate>{% csrf_token %}
+    <form name="addFoodForm" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>{% csrf_token %}
         <div class="mb-3 row">
             <label for="food_writer" class="col-sm-2 col-form-label">작성자</label>
             <div class="col-sm-4">
@@ -59,6 +59,9 @@
                     <option value="아시아">아시아</option>
                 </select>
             </div>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="file" id="food_file" name="files" style="width: 39rem;" multiple>
         </div>
         <hr class="my-5">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">

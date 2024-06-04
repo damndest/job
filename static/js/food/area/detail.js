@@ -7,6 +7,21 @@ function moveDelAreaFood(foodNo) {
 }
 
 function addAreaReply(foodNo) {
+    const nicknameVal = document.querySelector("input[name='nickname']").value;
+    const contentVal = document.querySelector("input[name='content']").value;
+
+    if ((nicknameVal === undefined) || (nicknameVal === null) || (nicknameVal.trim() === "")) {
+        alert("댓글의 닉네임을 입력해 주세요.");
+
+        return;
+    }
+
+    if ((contentVal === undefined) || (contentVal === null) || (contentVal.trim() === "")) {
+        alert("댓글 내용을 입력해 주세요.");
+
+        return;
+    }
+
     const request = new Request(
         '/foods/area/reply/add/',
         {
@@ -16,8 +31,8 @@ function addAreaReply(foodNo) {
             },
             mode: 'same-origin',
             body: JSON.stringify({
-                'nickname': document.querySelector("input[name='nickname']").value,
-                'content': document.querySelector("input[name='content']").value,
+                'nickname': nicknameVal,
+                'content': contentVal,
                 'food_no': foodNo
             })
         }
