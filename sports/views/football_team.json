@@ -65,9 +65,9 @@
         "team_manager" : "공석",
         "team_site": "https://www.chelseafc.com/en",
         "team_bgcolor1" : "034694",
-        "team_bgcolor2" : "FFFFFF",
-        "team_textcolor1" : "6A7AB5",
-        "team_textcolor2" : "6A7AB5"
+        "team_bgcolor2" : "EE242C",
+        "team_textcolor1" : "FFFFFF",
+        "team_textcolor2" : "D1D3D4"
     }, 
     "manchester_united" : {
         "team_league" : "premier_league",

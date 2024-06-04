@@ -14,6 +14,15 @@
         text-align: center;
         padding: 10px;
         border-bottom: 2px solid silver;
+        display: flex; 
+        align-items: center;
+    }
+    #main-title h1 {
+        flex: 1; 
+        text-align: center;
+    }
+    #main-button {
+        margin-left: auto;
     }
     {% for team in team_list %}
         .team-{{ team.team_id }} {
@@ -29,6 +38,10 @@
             {% if team.team_textcolor1 != team.team_bgcolor2 %}
                 text-shadow: -2px 0px #{{team.team_bgcolor2}},  0px 2px #{{team.team_bgcolor2}}, 2px 0px #{{team.team_bgcolor2}}, 0px -2px #{{team.team_bgcolor2}};
             {% endif %}
+        }
+        .team-{{team.team_id}} .fan-star {
+            float: right;
+            color: #{{team.team_textcolor1}};
         }
     {% endfor %}
     .team {
@@ -54,24 +67,46 @@
         height: 100%;
         max-width: 10%;
     }
+
 </style>
 
 
 <div id="wrapper">
     <div id="main-title">
         <h1>{{gamename}} 팀 페이지</h1>
+        <button type="button" class="btn btn-primary btn-lg" onclick="document.location.href='/sports/{{game}}'">메인으로</button>
     </div>
     <div class="w-75" style="margin-left:12%; clear:both;">
         {% for team in team_list %}
+            {% if request.user in team.team_fans.all %}
             <div class="team my-5 team-{{ team.team_id }}" onclick="location.href='/sports/{{game}}/team/{{team.team_id}}';">
                 {% with league_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_league|add:".svg" %}
-                    <img class="league-img" src="{% static league_image_path %}">
+                    <img class="league-img mx-2" src="{% static league_image_path %}">
                 {% endwith %}
                 {% with team_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_name|add:".svg" %}
                     <img class="team-img" src="{% static team_image_path %}">
                 {% endwith %}
                 <h2 class="align-middle">{{team.team_kname}}</h2>
+                <h3 class="fan-star mx-2 my-3">{{team.team_fans.count}}</h3>
+                <h1 class="fan-star" style="color: gold;">★ {{team.team_fans.count}}</h1>
             </div>
+            {% endif %}
+        {% endfor %}  
+        {% for team in team_list %}
+            {% if request.user not in team.team_fans.all %}
+            <div class="team my-5 team-{{ team.team_id }}" onclick="location.href='/sports/{{game}}/team/{{team.team_id}}';">
+                {% with league_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_league|add:".svg" %}
+                    <img class="league-img mx-2" src="{% static league_image_path %}">
+                {% endwith %}
+                {% with team_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_name|add:".svg" %}
+                    <img class="team-img" src="{% static team_image_path %}">
+                {% endwith %}
+                <h2 class="align-middle">{{team.team_kname}}</h2>
+                <h3 class="fan-star mx-2 my-3">{{team.team_fans.count}}</h3>
+                <h1 class="fan-star">☆</h1>
+
+            </div>
+            {% endif %}
         {% endfor %}  
     </div>
 </div>

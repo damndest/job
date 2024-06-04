@@ -32,6 +32,7 @@ urlpatterns = [
     # 스포츠/야구/팀
     path('baseball/team', baseball_views.teamlist, name="baseball_team"), # 팀 목록 URL
     re_path(r'baseball/team/(\d+)/$', baseball_views.team_detail, name="baseball_team_detail"), # 팀 세부 페이지 URL
+    re_path(r'baseball/team/(\d+)/fan/$', baseball_views.team_fan, name="baseball_team_fan"), # 팀 팬 등록 URL
 
     # 스포츠/축구
     path('football/', football_views.football, name="football"), # 축구 페이지 메인 URL
@@ -52,6 +53,7 @@ urlpatterns = [
     # 스포츠/축구/팀
     path('football/team', football_views.teamlist, name="football_team"), # 팀 목록 URL
     re_path(r'football/team/(\d+)/$', football_views.team_detail, name="football_team_detail"), # 팀 세부 페이지 URL
+    re_path(r'football/team/(\d+)/fan/$', football_views.team_fan, name="football_team_fan"), # 팀 팬 등록 URL
 
     # 스포츠/기타
     path('sportsetc/', sportsetc_views.sportsetc, name="sportsetc"), # 기타 스포츠 페이지 메인 URL

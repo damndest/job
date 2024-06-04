@@ -58,7 +58,11 @@ def teamlist(request, game):
 
     for team in team_list:
         team_id = team['team_id']
-        team['fan_count'] = SportsTeam.objects.get(team_id=team_id).team_fans.count()
+        team['team_fans'] = SportsTeam.objects.get(team_id=team_id).team_fans.all()
+        team['team_fans_count'] = team['team_fans'].count()
+
+    team_list = sorted(team_list, key=lambda x: x['team_fans_count'], reverse=True)
+    
     content = {
         'game' : game,
         'gamename' : gamename[game],
@@ -82,3 +86,29 @@ def team_detail(request, game, team_id):
         return invalid_team(game)
     except Exception as e:
         return unknown_error(game)
+    
+# 팀 팬 등록/등록 취소 뷰 함수
+def team_fan(request, game, team_id):
+    if request.user.is_active:
+        try:
+            team = SportsTeam.objects.get(team_id=team_id)
+            if team.team_fans.filter(member_idx=request.user.member_idx).exists():
+                team.team_fans.remove(request.user)
+                msg = "<script>"
+                msg += f"alert('{team.team_kname}의 팬 등록이 해제되었습니다.');"
+                msg += f"location.href='/sports/{game}/team/{team.team_id}';"
+                msg += "</script>"
+                return HttpResponse(msg)
+            else:
+                team.team_fans.add(request.user)
+                msg = "<script>"
+                msg += f"alert('{team.team_kname}의 팬으로 등록되었습니다.');"
+                msg += f"location.href='/sports/{game}/team/{team.team_id}';"
+                msg += "</script>"
+                return HttpResponse(msg)
+        except ObjectDoesNotExist as e:
+            return invalid_team(game)
+        except Exception as e:
+            return unknown_error(game)
+    else:
+        return need_login()

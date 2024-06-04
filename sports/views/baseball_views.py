@@ -54,8 +54,15 @@ def board_reply_dislike(request, reply_id):
 
 # ================== 팀 뷰 ==================
 
+# 야구 팀 리스트 뷰
 def teamlist(request):
     return team_views.teamlist(request, 'baseball')
 
+# 야구 팀 세부 페이지 뷰
 def team_detail(request, team_id):
     return team_views.team_detail(request, 'baseball', team_id)
+
+# 야구 팀 팬 등록 뷰
+def team_fan(request, team_id):
+    return team_views.team_fan(request, 'baseball', team_id)
+
