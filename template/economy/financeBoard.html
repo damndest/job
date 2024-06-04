@@ -1,0 +1,97 @@
+{% extends 'main/main.html' %}
+{% block title %}경제게시판{% endblock %}
+{% block content %}
+<style>
+    body {
+        background-color: white;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    .card {
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .table {
+        border-radius: 10px;
+    }
+    .card.button {
+
+    }
+</style>
+
+<div class="container" style="margin-top: 20px;"></div>>
+<h1 class="text-center mb-4" style="color: black; font-size: 2.5rem; font-weight: bold;">
+    경제 게시판
+</h1>
+</div>
+
+<div style="height:540px">
+    <div class="container">
+        <div class="card mx-auto" style="max-width: 1200px;">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center" style="width: 100%" align="center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" style="width: 5%">번호</th>
+                            <th scope="col" style="width: 50%">제목</th>
+                            <th scope="col" style="width: 20%">작성자</th>
+                            <th scope="col" style="width: 15%">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for value in border %}
+                        <tr>
+                            <td>{{ value.id }}</td>
+                            <td><a href="{% url 'BD:FBBDTL' value.id %}" class="text-truncate">{{ value.title }}</a></td>
+                            <td>{{ value.writer }}</td>
+                            <td>{{ value.hits }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <ul class="pagination d-flex justify-content-center">
+                {% if border.has_previous %}
+                <li class="page-item">
+                    <a href="/ecnomony/financeboard/{{ border.previous_page_number }}/" class="page-link">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a href="" class="page-link">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for i in page_num %}
+                {% if border.number == i %}
+                <li class="page-item active"><a href="/economy/financeboard/{{i}}" class="page-link">{{i}}</a></li>
+                {% else %}
+                <li class="page-item"><a href="/economy/financeboard/{{i}}/" class="page-link">{{i}}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if border.has_next %}
+                <li class="page-item">
+                    <a href="/economy/financeboard/{{ border.next_page_number }}/" class="page-link">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a href="" class="page-link">Next</a>
+                </li>
+                {% endif %}
+
+                <li>
+                    <div class="d-flex justify-content-center mx-2">
+                        {% if user.is_active %}
+                        <button type="button" class="btn btn-success btn-lg" onclick="document.location.href='/economy/boardadd/'">글쓰기</button>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
