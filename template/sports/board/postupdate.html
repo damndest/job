@@ -1,0 +1,54 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 수정 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        min-height: 100%;
+    }
+    #main-title {
+        margin: 50px 10%;
+        text-align: center;
+    }
+</style>
+
+<div id="wrapper">
+    <h1 id="main-title">야구 게시글 수정</h1>
+    <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
+    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
+            <tr>
+                <th class="align-middle">제목</th>
+                <td colspan="2"><input type="text" name="title" class="form-control" value="{{post.post_title}}"></td>
+            </tr>
+            <tr>
+                <th class="align-middle">작성자</th>
+                <td><input type="text" name="author" class="form-control" id="author" disabled value="{{post.post_author_nn}}"></td>
+                <td style="width:20%;" class="align-middle">
+                    {% if post.post_author_nn == user.user_id %}
+                        <input type="checkbox" class="form-check-input" disabled>
+                    {% else %}
+                        <input type="checkbox" class="form-check-input" checked disabled>
+                    {% endif %}
+                    <label class="form-check-label" for="flexCheckDefault">
+                        닉네임 사용
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th class="align-middle">내용</th>
+                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;">{{post.post_content}}</textarea></td>
+            </tr>
+        </table>
+        <!-- 버튼 영역 적용 필요 -->
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+            <input type="submit" class="btn btn-success btn-lg mx-2" value="저장" style="width: 120px;">
+        </div>
+    </form>
+</div>
+
+{% endblock %}

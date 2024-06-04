@@ -1,0 +1,59 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - 야구{% endblock %}
+{% load static %}
+
+<!-- 야구 메인 페이지 HTML 탬플릿 -->
+
+{% block content %}
+<!-- 야구 메인 페이지 자체 CSS -->
+<style>
+    #wrapper {
+        margin: 50px 10%;
+        text-align: center;
+        height: 800px;
+    }
+    #title-section {
+        /*position: relative;*/
+        width: 100%;
+        /*min-height: 30vh;*/
+        height: 30%;
+        min-height: 400px;
+        background-color: aquamarine;
+        background-image: url("{% static 'imgs/sports/baseball/baseball_main.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        /*background-position : 0 -400px;*/
+        margin-bottom: 100px;
+    }
+    #title-text {
+        width: 30%;
+        top: 40%;
+        left: 10%;
+        text-align: center;
+        font-weight: bolder;
+        color: black;
+        background: linear-gradient(to right, aquamarine, transparent)
+    }
+    .card {
+        height: 20vh;
+    }
+</style>
+<div id="wrapper">
+    <div id="title-section">
+        <h1 id="title-text">빠따</h1>
+    </div>
+    <div class="card-group">
+        <div class="card" onclick="location.href='/sports/baseball/board/1';">
+            <h2>자유게시판</h2>
+        </div>
+        <div class="card">
+            <h2>팀 페이지</h2>
+        </div>
+        <div class="card">
+            <h2>선수 페이지</h2>
+        </div>
+      </div>
+</div>
+
+
+{% endblock %}

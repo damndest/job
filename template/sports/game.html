@@ -1,0 +1,76 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+
+
+<!-- 게임 메인 페이지 HTML 탬플릿 -->
+
+{% block content %}
+<!-- 게임 메인 페이지 자체 CSS -->
+{% with image_path="imgs/sports/"|add:game|add:"/"|add:game|add:"_main.jpg" %}
+<style>
+    #wrapper {
+        margin: 50px 10%;
+        text-align: center;
+        min-height: 800px;
+    }
+    #title-section {
+        /*position: relative;*/
+        width: 100%;
+        /*min-height: 30vh;*/
+        height: 30%;
+        min-height: 400px;
+        background-color: aquamarine;
+        background-image: url("{% static image_path %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        /*background-position : 0 -400px;*/
+        margin-bottom: 100px;
+    }
+    #title-text {
+        width: 30%;
+        top: 40%;
+        left: 10%;
+        text-align: center;
+        font-weight: bolder;
+        color: black;
+        background: linear-gradient(to right, aquamarine, transparent)
+    }
+    .card {
+        height: 20vh;
+        transition: 0.2s;
+    }
+    .card h2 {
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    .card:hover {
+        background-color: silver;
+        box-shadow: lightgrey 3px 3px 3px 3px;
+    }
+    .card:hover h2 {
+        font-weight: bolder;
+        font-size: 40px;
+    }
+</style>
+{% endwith %}
+<div id="wrapper">
+    <div id="title-section">
+        <h1 id="title-text">{{gamename}}</h1>
+    </div>
+    <div class="card-group">
+        <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports/{{game}}/board/1';">
+            <h2>자유게시판</h2>
+        </div>
+        <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports/{{game}}/team';">
+            <h2 class="text-center">팀 페이지</h2>
+        </div>
+        <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports';">
+            <h2>메인 페이지</h2>
+        </div>
+      </div>
+</div>
+
+
+{% endblock %}

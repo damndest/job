@@ -1,0 +1,130 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - {{gamename}}{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 조회 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        width: 100%;
+    }
+    #team-info {
+        border-collapse: collapse;
+        border: 3px solid #{{team.team_bgcolor2}};
+    }
+    #team-info * {
+        background-color: #{{team.team_bgcolor1}};
+        color: #{{team.team_textcolor1}};
+    }
+    #team-info td {
+        border: 1px solid #{{team.team_bgcolor2}};
+        vertical-align: middle; /* td 내용이 세로로 중앙 정렬되도록 설정 */
+    }
+    #team-info td span {
+        vertical-align: middle; /* td 내용이 세로로 중앙 정렬되도록 설정 */
+        padding: 0;
+    }
+    #team-info-1 td {
+        height: 200px;
+    }
+    #team-info-img {
+        width: 150px; /* 원하는 폭으로 설정하세요 */
+        max-height: 200px;
+    }
+    /* 이미지를 td의 폭에 맞춥니다 */
+    #team-info-img img {
+        width: 100%;
+        height: auto; /* 비율을 유지하면서 폭에 맞춥니다 */
+        max-height: 200px;
+    }
+    #team-info-name h1 {
+        font-size: 35pt;
+        font-weight: bolder;
+    }
+    #team-info-name h2 {
+        font-size: 25pt;
+        font-weight: bold;
+    }
+    #team-info-name h3 {
+        font-size: 18pt;
+    }
+    #team-fan-td {
+        justify-content: center;
+        align-items: center;
+    }
+    #team-fan-span {
+        font-size: 50px; /* 별의 크기를 줄임 */
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+    #fan-star {
+        color: gold; 
+    }
+    .team-info-span {
+        font-size: 15pt;
+    }
+</style>
+
+<div id="wrapper" align="center">
+    <table id="team-info" class="table w-75 my-5">
+        <tr id="team-info-1">
+            <td id="team-info-img">
+                {% with team_image_path="imgs/sports/"|add:game|add:"/team/"|add:team.team_name|add:".svg" %}
+                    <img src="{% static team_image_path %}">
+                {% endwith %}
+            </td>
+            <td colspan="2" id="team-info-td">
+                <div id="team-info-name">
+                    <h1>
+                        {{team.team_kname}}
+                    </h1>
+                    <h2>
+                        {{team.team_ename}}
+                    </h2>
+                    <h3>
+                        {{team.team_intro}}
+                    </h3>
+                </div>
+            </td>
+            <td id="team-fan-td" class="align-middle" colspan="2" onclick="location.href='/sports/{{game}}/team/{{team.team_id}}/fan'">
+                <div id="team-fan-span" class="align-middle">
+                    {% if request.user in team.team_fans.all %}
+                        <span id="fan-star">★</span>
+                    {% else %}
+                        <span>☆</span>
+                    {% endif %}
+                    <span>&nbsp;×&nbsp;{{team.team_fans.count}}</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="team-info-span">감독</span>
+            </td>
+            <td>
+                <span class="team-info-span">{{team.team_manager}}</span>
+            </td>
+            <td>
+                <span class="team-info-span">연고지</span>
+            </td>
+            <td>    
+                <span class="team-info-span">{{team.team_hometown}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="team-info-span">소속 리그</span>
+            </td>
+            <td>
+                <span class="team-info-span">{{team.team_league_k}}</span>
+            </td>
+            <td style="text-align: center;" colspan="2">
+                <a class="team-info-span" href="{{team.team_site}}">공식 사이트</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
