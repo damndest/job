@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.decorators.http import require_http_methods, require_GET
-from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods, require_GET, require_POST
+from django.http import HttpResponse, JsonResponse
 from foods.models import Member, Food
 from datetime import datetime
+import json
 
 # 로그인 화면 강제 반환 함수
 def return_login():
@@ -124,3 +125,18 @@ def del_foods_area(request, food_no):
     msg += "</script>";
 
     return HttpResponse(msg);
+
+@require_POST
+def del_chk_foods_area(request):
+    req = json.loads(request.body);
+
+    food_list = req['food_list'];
+
+    for food_no in food_list:
+        Food.objects.get(food_no=food_no).delete();
+
+    content = {
+        'msg': '성공'
+    };
+
+    return JsonResponse(content);

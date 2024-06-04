@@ -21,7 +21,31 @@ function delAreaFood() {
         return;
     } else {
         if (window.confirm("정말 삭제하시겠습니까?")) {
-            
+            const request = new Request(
+                'del_chk_list/',
+                {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector("[name='csrfmiddlewaretoken']").value
+                    },
+                    mode: 'same-origin',
+                    body: JSON.stringify({
+                        'food_list': delArr
+                    })
+                }
+            );
+        
+            fetch(request)
+                .then((response) => response.json())
+                .then((data) => {
+                    const msg = data['msg'];
+        
+                    if ((msg != undefined) && (msg.trim() != "")) {
+                        alert("체크한 게시판을 삭제 " + msg + "하였습니다.");
+
+                        location.href = '/foods/area/';
+                    }
+                });
         }
     }
 }
