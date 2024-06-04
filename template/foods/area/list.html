@@ -1,0 +1,90 @@
+{% extends 'templates.html' %}
+
+{% block title %}알쓸여잡 음식 지역별 페이지{% endblock %}
+
+{% load static %}
+
+{% block script %}
+<script src="{% static 'js/main/comm.js' %}"></script>
+<script src="{% static 'js/food/area/list.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 py-5" style="height: 46rem;">
+    <h3>음식 지역별</h3>
+
+    <table class="table table-bordered table-hover mt-4">
+        <thead class="table-light text-center">
+            <tr>
+              {% if user.is_active and user.is_superuser %}
+                <th scope="col" style="width: 3rem;">
+                    <div>
+                        <input class="form-check-input" type="checkbox" id="del-all-food" value="" aria-label="삭제 체크 박스" onclick="toggleAllCheck(this);">
+                    </div>
+                </th>
+              {% endif %}
+
+                <th scope="col" style="width: 4rem;">번호</th>
+                <th scope="col" class="w-50">제목</th>
+                <th scope="col">지역</th>
+                <th scope="col" style="width: 10rem;">수정일</th>
+                <th scope="col" style="width: 5rem;">조회수</th>
+            </tr>
+        </thead>
+        <tbody id="food-area-tbd">
+          {# 슈퍼유저(관리자)만 삭제 가능하게, 슈퍼유저만 삭제 체크 박스 보임 처리 추가 #}
+          
+          {% if user.is_active and user.is_superuser %}
+           {% for food in food_list %}
+            <tr>
+                <th scope="row" class="text-center">
+                  <div>
+                      <input class="form-check-input" type="checkbox" id="del-food-{{food.food_no}}" value="{{food.food_no}}" aria-label="삭제 체크 박스">
+                  </div>
+                </th>
+                <td class="text-center">{{food.food_no}}</td>
+                <td><a href="{% url 'foods:area_detail' food.food_no %}">{{food.title}}</a></td>
+                <td>{{food.area_name}}</td>
+                <td class="text-center">{{food.modify_date|date:'Y-m-d'}}</td>
+                <td class="text-center">{{food.see_cnt}}</td>
+            </tr>
+           {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">데이터가 존재하지 않습니다.</td>
+            </tr>
+           {% endfor %}
+          {% else %}
+           {% for food in food_list %}
+            <tr>
+                <td class="text-center">{{food.food_no}}</td>
+                <td><a href="{% url 'foods:area_detail' food.food_no %}">{{food.title}}</a></td>
+                <td>{{food.area_name}}</td>
+                <td class="text-center">{{food.modify_date|date:'Y-m-d'}}</td>
+                <td class="text-center">{{food.see_cnt}}</td>
+            </tr>
+           {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">데이터가 존재하지 않습니다.</td>
+            </tr>
+           {% endfor %}
+          {% endif %}
+        </tbody>
+    </table>
+    <hr class="my-5">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      {% comment %}
+      슈퍼유저(관리자)만 삭제 가능하게, 슈퍼유저만 삭제 버튼 보임 처리 추가
+      그냥 로그인만 한 경우에는 추가 버튼만 보임 처리
+      {% endcomment %}
+
+      {% if user.is_active and user.is_superuser %}
+        <button type="button" class="btn btn-primary me-md-2" onclick="moveAddFood();">추가</button>
+        <button type="button" class="btn btn-danger me-md-2" onclick="delAreaFood();">삭제</button>
+      {% elif user.is_active %}
+        <button type="button" class="btn btn-primary me-md-2" onclick="moveAddFood();">추가</button>
+      {% endif %}
+
+        <button type="button" class="btn btn-secondary" onclick="moveMain();">메인화면</button>
+    </div>
+</div>
+{% endblock %}
