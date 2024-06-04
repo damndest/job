@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from django.http import HttpResponse, JsonResponse
-from foods.models import Member, Food
+from main.models import Member
+from foods.models import Food, FoodReply
 from datetime import datetime
 import json
 
@@ -57,17 +58,27 @@ def add_foods(request):
 @require_GET
 def foods_area_detail(request, food_no):
     food = Food.objects.values().get(food_no=food_no);
+    food_see_cnt = food['see_cnt'] + 1;
+
+    food_obj = Food.objects.get(food_no=food_no);
+    food_obj.see_cnt = food_see_cnt;
+    food_obj.save();
+    
+    reply = FoodReply.objects.filter(food_no=food_no);
     
     if request.user.is_active:
         member = Member.objects.get(member_idx=food['member_idx_id']);
         
         content = {
             "food": food,
-            "user_id": member.user_id
+            "user_id": member.user_id,
+            "reply": reply,
+            "member_idx": Member.objects.get(user_id=request.user)
         };
     else:
         content = {
-            "food": food
+            "food": food,
+            "reply": reply
         };
 
     return render(request, 'foods/area/detail.html', content);
@@ -137,6 +148,39 @@ def del_chk_foods_area(request):
 
     content = {
         'msg': '성공'
+    };
+
+    return JsonResponse(content);
+
+@require_POST
+def add_rpl_foods_area(request):
+    req = json.loads(request.body);
+
+    food_no = req['food_no'];
+
+    reply = FoodReply();
+    reply.nickname = req['nickname'];
+    reply.content = req['content'];
+    reply.food_no = Food.objects.get(food_no=food_no);
+    reply.member_idx = Member.objects.get(user_id=request.user);
+    reply.regist_date = datetime.now();
+
+    reply.save();
+
+    content = {
+        'food_no': food_no
+    };
+
+    return JsonResponse(content);
+
+@require_POST
+def del_rpl_foods_area(request):
+    req = json.loads(request.body);
+
+    FoodReply.objects.get(food_rpl_no=req['food_rpl_no']).delete();
+
+    content = {
+        'food_no': req['food_no']
     };
 
     return JsonResponse(content);

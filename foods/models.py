@@ -18,3 +18,15 @@ class Food(models.Model):
 
     def __str__(self):
         return self.title;
+
+class FoodReply(models.Model):
+    food_rpl_no = models.AutoField(primary_key=True);
+    nickname = models.CharField(max_length=50, blank=False, null=False);
+    content = models.CharField(max_length=255);
+    regist_date = models.DateTimeField(null=False);
+    member_idx = models.ForeignKey(
+        Member, on_delete=models.CASCADE
+    );
+    food_no = models.ForeignKey(
+        Food, on_delete=models.CASCADE
+    );

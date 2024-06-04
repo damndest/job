@@ -27,9 +27,9 @@ function memberIdChk() {
     fetch(request)
         .then((response) => response.json())
         .then((data) => {
-            const dupl_id_flag = data['dupl_id_flag'];
+            const duplIdFlag = data['dupl_id_flag'];
 
-            if (dupl_id_flag) {
+            if (duplIdFlag) {
                 alert("이미 존재하는 아이디로 사용하실 수 없습니다.");
             } else {
                 alert("사용가능한 아이디 입니다.");
