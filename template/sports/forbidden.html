@@ -1,0 +1,29 @@
+{% extends 'templates.html' %}
+{% block title %}알쓸여잡 - 스포츠{% endblock %}
+{% load static %}
+
+<!-- 자유게시판 글 작성 HTML 탬플릿 -->
+
+{% block content %}
+<style>
+    #wrapper {
+        min-height: 100%;
+        text-align: center;
+    }
+    #main-title {
+        margin: 50px 10%;
+        text-align: center;
+        color: red;
+        font-weight: bolder;
+    }
+</style>
+
+<div id="wrapper" class="justify-content-center">
+    <h1 id="main-title">403 Forbidden</h1>
+    <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
+    <img src='{%static "imgs/sports/redcard.jpg" %}'>
+    <h2 class="my-5">접근할 수 없는 경로입니다.</h2>
+    <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+</div>
+
+{% endblock %}

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main', 'foods',
+    'main', 'foods', 'humor',
+    'sports', 'economy',
 ]
 
 MIDDLEWARE = [
@@ -123,10 +124,12 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    ("img", os.path.join(BASE_DIR, 'img')),
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# USER 모델 사용자 지정
+AUTH_USER_MODEL = 'main.Member'
