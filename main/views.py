@@ -51,11 +51,11 @@ def member_id_check(request):
     else:
         dupl_id_flag = True;
         
-    context = {
+    content = {
         'dupl_id_flag': dupl_id_flag
     };
         
-    return JsonResponse(context);
+    return JsonResponse(content);
 
 @require_http_methods(["GET", "POST"])
 def login(request):
@@ -69,7 +69,7 @@ def login(request):
 
         if member is not None:
             auth.login(request, member);
-        
+            
             return redirect("/main/");
         else:
             msg = "<script>";

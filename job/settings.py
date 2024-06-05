@@ -133,3 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # USER 모델 사용자 지정
 AUTH_USER_MODEL = 'main.Member'
+
+# 유저가 올리는 파일 기본 경로 지정
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media');
+MEDIA_URL = '/media/'

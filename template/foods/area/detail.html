@@ -1,0 +1,83 @@
+{% extends 'templates.html' %}
+
+{% block title %}알쓸여잡 음식 지역별 상세 페이지{% endblock %}
+
+{% load static %}
+
+{% block script %}
+<script src="{% static 'js/main/comm.js' %}"></script>
+<script src="{% static 'js/food/area/detail.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 py-5">
+    <h4 class="mb-3">{{food.title}}</h4>
+    <table class="table">
+        <tr>
+            <th class="col-1">번호</th>
+            <td class="col-1">{{food.food_no}}</td>
+            <th class="col-1">작성자</th>
+            <td>{{food.writer}}</td>
+            <th class="col-1">작성일</th>
+            <td class="col-2">{{food.modify_date|date:'Y-m-d'}}</td>
+        </tr>
+        <tr style="height: 15rem;">
+            <td colspan="6">{{food.content}}</td>
+        </tr>
+        <tr>
+            <th class="col-1">지역</th>
+            <td colspan="3">{{food.area_name}}</td>
+            <th class="col-1">조회수</th>
+            <td>{{food.see_cnt}}</td>
+        </tr>
+    </table>
+    <hr class="my-4">
+    {% for rpl in reply %}
+    <div class="card border-secondary mb-3 col-12">
+        <div class="card-body">
+            <h5 class="card-title">{{rpl.nickname}}</h5>
+            <p class="card-text">{{rpl.content}}</p>
+            <h6 class="card-subtitle mb-2 text-body-secondary text-end">{{rpl.regist_date|date:'Y-m-d'}} {{rpl.regist_date|time:'H:i:s'}}</h6>
+          {% if member_idx == rpl.member_idx %}
+            <a href="javascript:void(0);" class="btn btn-danger float-end" onclick="delAreaReply('{{rpl.food_rpl_no}}', '{{food.food_no}}');">댓글 삭제</a>
+          {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="card border-secondary mb-3 col-12">
+        <div class="card-body">
+            <p class="card-text">등록된 댓글이 없습니다.</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% if user.is_active %}
+    <hr class="my-4">
+    <form class="row g-3">
+        <div class="col-auto">
+            <label for="food_nick" class="col-form-label">닉네임</label>
+        </div>
+        <div class="col-auto col-2">
+            <input type="text" id="food_nick" class="form-control" name="nickname" placeholder="닉네임">
+        </div>
+        <div class="col-auto">
+            <label for="food_reply" class="col-form-label">댓글</label>
+        </div>
+        <div class="col-auto col-8">
+            <input type="text" id="food_reply" class="form-control" name="content" placeholder="댓글 내용">
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-success mb-3" onclick="addAreaReply('{{food.food_no}}');">등록</button>
+        </div>
+    </form>
+    {% endif %}
+    <hr class="my-3">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      {% if user.username == user_id %}
+        <button type="button" class="btn btn-primary me-md-2" onclick="moveModFood('{{food.food_no}}');">수정</button>
+        <button type="button" class="btn btn-danger me-md-2" onclick="moveDelAreaFood('{{food.food_no}}');">삭제</button>
+      {% endif %}
+
+        <button type="button" class="btn btn-secondary" onclick="moveMain();">메인화면</button>
+    </div>
+</div>
+{% endblock %}
