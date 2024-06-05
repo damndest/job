@@ -30,6 +30,18 @@
             <th class="col-1">조회수</th>
             <td>{{food.see_cnt}}</td>
         </tr>
+        <tr>
+            <th class="col-1">파일</th>
+            <td colspan="5">
+                <ul class="list-group">
+                  {% for f in file_list %}
+                    <li class="list-group-item">
+                        <a href="/foods/area/download/{{food.food_no}}/{{f}}">{{f}}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+            </td>
+        </tr>
     </table>
     <hr class="my-4">
     {% for rpl in reply %}
