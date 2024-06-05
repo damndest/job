@@ -43,7 +43,7 @@ function delAreaFood() {
                     if ((msg != undefined) && (msg.trim() != "")) {
                         alert("체크한 게시판을 삭제 " + msg + "하였습니다.");
 
-                        location.href = '/foods/area/';
+                        location.href = '/foods/area/list/1/';
                     }
                 });
         }

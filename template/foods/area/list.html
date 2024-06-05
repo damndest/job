@@ -71,6 +71,39 @@
         </tbody>
     </table>
     <hr class="my-5">
+    <ul class="pagination justify-content-center">
+      {% if food_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="/foods/area/list/{{food_list.previous_page_number}}/">이전</a>
+        </li>
+      {% else %}
+        <li class="page-item">
+            <a class="page-link disabled" href="">이전</a>
+        </li>
+      {% endif %}
+
+     {% for p in page_num %}
+      {% if food_list.number == p %}
+        <li class="page-item active">
+            <a class="page-link" href="/foods/area/list/{{p}}/">{{p}}</a>
+        </li>
+      {% else %}
+        <li class="page-item">
+            <a class="page-link" href="/foods/area/list/{{p}}/">{{p}}</a>
+        </li>
+      {% endif %}
+     {% endfor %}
+
+     {% if food_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="/foods/area/list/{{food_list.next_page_number}}/">다음</a>
+        </li>
+     {% else %}
+        <li class="page-item">
+            <a class="page-link disabled" href="">다음</a>
+        </li>
+     {% endif %}
+    </ul>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       {% comment %}
       슈퍼유저(관리자)만 삭제 가능하게, 슈퍼유저만 삭제 버튼 보임 처리 추가

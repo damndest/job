@@ -9,6 +9,7 @@ import os
 from django.conf import settings
 from urllib import parse
 import shutil
+from django.core.paginator import Paginator
 
 # 로그인 화면 강제 반환 함수
 def return_login():
@@ -44,12 +45,36 @@ def remove_file_foods_area(food_no):
         shutil.rmtree(path);
 
 @require_GET
-def foods_area(request):
-    food = Food.objects.all();
+def foods_area(request, page):
+    food = Food.objects.all().order_by('-food_no');
+
+    paging = Paginator(food, 10);
+
+    str_page = str(page);
+
+    last = int(str_page[-1]);
+    first = int(str_page[:-1] + '1');
+
+    if last == 0:
+        max = first;
+        first = max - 10;
+    elif first + 10 > paging.num_pages:
+        max = paging.num_pages + 1;
+    else:
+        max = first + 10;
     
-    content = {
-        "food_list": food
-    }
+    page_num = range(first, max);
+
+    try:
+        content = {
+            "food_list": paging.page(page),
+            "page_num": page_num
+        }
+    except:
+        content = {
+            "food_list": paging.page(paging.num_pages),
+            "page_num": page_num
+        }
 
     return render(request, 'foods/area/list.html', content);
 
@@ -80,7 +105,7 @@ def add_foods(request):
 
         msg = "<script>";
         msg += "alert('음식 게시글이 저장되었습니다.');";
-        msg += f"location.href = '/foods/area/';";
+        msg += f"location.href = '/foods/area/list/1/';";
         msg += "</script>";
 
         return HttpResponse(msg);
@@ -160,7 +185,7 @@ def mod_foods_area(request, food_no):
             else:
                 msg = "<script>";
                 msg += "alert('접근할 수 없는 URL 입니다.');";
-                msg += "location.href = '/foods/area/';";
+                msg += "location.href = '/foods/area/list/1/';";
                 msg += "</script>";
 
                 return HttpResponse(msg);
@@ -195,7 +220,7 @@ def del_foods_area(request, food_no):
 
     msg = "<script>";
     msg += f"alert('{food_no}번 게시글을 삭제 했습니다.');";
-    msg += "location.href = '/foods/area/';";
+    msg += "location.href = '/foods/area/list/1/';";
     msg += "</script>";
 
     return HttpResponse(msg);
