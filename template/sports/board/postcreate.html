@@ -13,6 +13,7 @@
     #main-title {
         margin: 50px 10%;
         text-align: center;
+        border-bottom: 2px solid silver;
     }
     #input-author {
         text-align: left;
@@ -40,12 +41,12 @@
             </tr>
             <tr>
                 <th class="align-middle">내용</th>
-                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;"></textarea></td>
+                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content"></textarea></td>
             </tr>
         </table>
         <!-- 버튼 영역 적용 필요 -->
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="location.href = document.referrer;">뒤로가기</button>
             <input type="submit" class="btn btn-success btn-lg mx-2" value="저장" style="width: 120px;">
             <input type="reset" class="btn btn-danger btn-lg mx-2" value="초기화" style="width: 120px;">
         </div>
@@ -65,9 +66,16 @@
         }
     }
     const check = () => {
-        let title_value = document.getElementById("post-title").value;
-        if (title_value === "") {
+        if (document.getElementById("post-title").value === "") {
             alert("제목을 입력하세요.");
+            return false;
+        }
+        if (document.getElementById("post-title").value.length > 128) {
+            alert("제목은 128자 이하여야 합니다.");
+            return false;
+        }
+        if (document.getElementById("post-content").value.length == 0) {
+            alert("내용을 입력하세요.");
             return false;
         }
         return true;

@@ -18,11 +18,11 @@
 <div id="wrapper">
     <h1 id="main-title">야구 게시글 수정</h1>
     <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
-    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+    <form method="post" enctype="multipart/form-data" onsubmit="return check();"> {% csrf_token %}
         <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
             <tr>
                 <th class="align-middle">제목</th>
-                <td colspan="2"><input type="text" name="title" class="form-control" value="{{post.post_title}}"></td>
+                <td colspan="2"><input type="text" id="post-title" name="title" class="form-control" value="{{post.post_title}}"></td>
             </tr>
             <tr>
                 <th class="align-middle">작성자</th>
@@ -40,15 +40,35 @@
             </tr>
             <tr>
                 <th class="align-middle">내용</th>
-                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;">{{post.post_content}}</textarea></td>
+                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content">{{post.post_content}}</textarea></td>
             </tr>
         </table>
         <!-- 버튼 영역 적용 필요 -->
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="location.href = document.referrer">뒤로가기</button>
             <input type="submit" class="btn btn-success btn-lg mx-2" value="저장" style="width: 120px;">
         </div>
     </form>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    const check = () => {
+        if (document.getElementById("post-title").value === "") {
+            alert("제목을 입력하세요.");
+            return false;
+        }
+        if (document.getElementById("post-title").value.length > 255) {
+            alert("제목은 128자 이하여야 합니다.");
+            return false;
+        }
+        if (document.getElementById("post-content").value.length == 0) {
+            alert("내용을 입력하세요.");
+            return false;
+        }
+        return true;
+    }
+</script>
 {% endblock %}

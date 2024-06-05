@@ -30,10 +30,10 @@ def invalid_team(game:str) -> HttpResponse:
     return HttpResponse(msg)
 
 # 존재하지 않는 톡 접근시 처리하는 함수
-def invalid_talk(game:str, team_id:int) -> HttpResponse:
+def invalid_talk(game:str) -> HttpResponse:
     msg = "<script>"
-    msg += f"alert('이미 삭제되었거나 존재하지 않는 글입니다. ');"
-    msg += f"location.href='/sports/{game}/team/{team_id}';"
+    msg += f"alert('이미 삭제되었거나 존재하지 않는 톡입니다. ');"
+    msg += f"location.href='/sports/{game}/team';"
     msg += "</script>"
     return HttpResponse(msg)
 
@@ -74,6 +74,8 @@ def teamlist(request, game):
 def team_detail(request, game, team_id):
     try:
         team = SportsTeam.objects.get(team_id=team_id)
+        if team.team_game != game:
+            return invalid_team(game)
         team_talk = SportsTeamTalk.objects.filter(team_talk_team=team_id).order_by('-team_talk_id')
         content = {
             'game' : game,
@@ -93,6 +95,8 @@ def team_fan(request, game, team_id):
     if request.user.is_active:
         try:
             team = SportsTeam.objects.get(team_id=team_id)
+            if team.team_game != game:
+                return invalid_team(game)
             if team.team_fans.filter(member_idx=request.user.member_idx).exists():
                 team.team_fans.remove(request.user)
                 msg = "<script>"
@@ -113,39 +117,6 @@ def team_fan(request, game, team_id):
             return unknown_error(game)
     else:
         return need_login()
-
-# 팀 톡 추가 뷰
-def team_add_talk(request, game, team_id):
-    if request.user.is_active:
-        try:
-            if request.method == "POST":
-                print("시도")
-                team_talk = SportsTeamTalk()
-                team_talk.team_talk_author = request.POST.get('author')
-                team_talk.team_talk_content = request.POST.get('reply')
-                team_talk.team_talk_wdate = datetime.now()
-                team_talk.team_talk_team = SportsTeam.objects.get(team_id=team_id)
-                team_talk.team_talk_member = request.user
-                team_talk.save()
-                return redirect(f'/sports/{game}/team/{team_id}')          
-            else:
-                team = SportsTeam.objects.get(team_id=team_id)
-                team_talk = SportsTeamTalk.objects.filter(team_talk_team=team_id)
-                content = {
-                    'game' : game,
-                    'gamename' : gamename[game],
-                    'team' : team,
-                    'talk' : team_talk,
-                }
-                return render(request, 'sports/team/teamdetail.html', content)
-        except ObjectDoesNotExist as e:
-            return invalid_team(game)
-        except Exception as e:
-            print(e)
-            return unknown_error(game)
-    else:
-        return need_login()
-    
 
 # 팀 톡 추가 뷰
 def team_add_talk(request, game, team_id):
@@ -182,6 +153,8 @@ def team_add_talk(request, game, team_id):
 def team_del_talk(request, game, talk_id):
     try:
         team_talk = SportsTeamTalk.objects.get(team_talk_id=talk_id)
+        if team_talk.team_talk_team.team_game != game:
+            return invalid_talk(game)
         if request.user == team_talk.team_talk_member:
             team_id = team_talk.team_talk_team.team_id
             team_talk.delete()
@@ -194,7 +167,7 @@ def team_del_talk(request, game, talk_id):
             return redirect('/sports/forbidden')
     except ObjectDoesNotExist as e:  # 이미 삭제되었거나 없는 톡 조회 시
         print(e)
-        return invalid_team(game)
+        return invalid_talk(game)
     except Exception as e:
         print(e)
         return unknown_error(game)

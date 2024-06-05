@@ -46,7 +46,7 @@
         </tr>
     </table>
     <div class="d-flex justify-content-center my-5" style="clear:both">
-            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="document.location.href='javascript:history.back()';">뒤로가기</button>
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="location.href = document.referrer;">뒤로가기</button>
             <button type="button" class="btn btn-primary btn-lg mx-2" onclick="location.href='/sports/{{game}}/board/1';">목록으로</button>
         {% if request.user == post.post_member %}
             <!-- 수정, 삭제 구현 후 링크 추가 필요 -->
@@ -86,7 +86,7 @@
         {% endfor %}
         {% if user.is_active %}
         <div class="card">
-            <form method="post" action="{{game}}/board/post/{{post.post_id}}/addreply"> {% csrf_token %}
+            <form method="post" action="{{game}}/board/post/{{post.post_id}}/addreply" name="reply_form" onsubmit="return check_reply()"> {% csrf_token %}
                 <div class="card-body">
                     <h4>댓글 작성</h4>
                     <div class="row align-items-center">
@@ -96,10 +96,10 @@
                     </div>
                     <div class="row align-items-center my-2">
                         <div class="d-flex align-items-center">
-                                <input type="text" name="author" class="form-control w-50" id="reply_author" value="{{user.user_id}}" disabled>
-                                <input type="checkbox" class="form-check-input me-2 mx-3" name="toggle" onclick="toggle_name(this);" id="toggleCheck">
-                                <span>닉네임 사용</span>
-                                <input type="submit" value="등록" class="btn btn-success mx-3 w-md-auto btn-sm">
+                            <input type="text" name="author" class="form-control w-50" id="reply_author" value="{{user.user_id}}" disabled>
+                            <input type="checkbox" class="form-check-input me-2 mx-3" name="toggle" onclick="toggle_name(this);" id="toggleCheck">
+                            <span>닉네임 사용</span>
+                            <input type="submit" value="등록" class="btn btn-success mx-3 w-md-auto btn-sm">
                         </div>
                     </div>
                 </div>
@@ -111,8 +111,15 @@
     <div style="clear:both"></div>
 </div>
 <script>
-    let reply_author = document.getElementById("reply_author")
+
+
+</script>
+{% endblock %}
+
+{% block script %}
+<script>
     const toggle_name = (ch) => {
+        let reply_author = document.getElementById("reply_author")
         if (ch.checked) {
             reply_author.removeAttribute("disabled");
             reply_author.value = '{{user.user_name}}';
@@ -122,11 +129,7 @@
             reply_author.value = '{{user.user_id}}';
         }
     }
-</script>
-{% endblock %}
 
-{% block script %}
-<script>
     const confirmDelete = () => {
         if (confirm("게시물을 삭제하시겠습니까?")) {
 		    document.location.href='/sports/{{game}}/board/post/{{post.post_id}}/delete';
@@ -136,6 +139,22 @@
         if (confirm("댓글을 삭제하시겠습니까?")) {
             document.location.href = document.location.href='/sports/{{game}}/board/post/delreply/' + reply_no;
         }
+    }
+    const check_reply = () => {
+        let reply = document.reply_form;
+        if (reply.reply.value.length === 0) {
+            alert("댓글 내용을 입력하세요.");
+            return false;
+        }
+        if (reply.reply.value.length > 255) {
+            alert("댓글 내용은 255자 이하여야 합니다.");
+            return false;
+        }
+        if (reply.toggle.checked && reply.author.value.length === 0) {
+            alert("닉네임을 입력하세요.");
+            return false;
+        }
+        return true;
     }
 </script>
 {% endblock %}

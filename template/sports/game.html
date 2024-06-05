@@ -16,26 +16,29 @@
         min-height: 800px;
     }
     #title-section {
-        /*position: relative;*/
         width: 100%;
-        /*min-height: 30vh;*/
         height: 30%;
         min-height: 400px;
-        background-color: aquamarine;
+        background-color: silver;
         background-image: url("{% static image_path %}");
         background-repeat: no-repeat;
-        background-size: cover;
-        /*background-position : 0 -400px;*/
+        background-size: cover; /* div를 꽉 채우도록 설정 */
+        background-position: center bottom; /* 중앙 하단 부분을 고정 */
         margin-bottom: 100px;
     }
+
+
+
     #title-text {
         width: 30%;
         top: 40%;
         left: 10%;
         text-align: center;
         font-weight: bolder;
-        color: black;
-        background: linear-gradient(to right, aquamarine, transparent)
+        /* color: black;
+        background: linear-gradient(to right, aquamarine, transparent); */
+        background: linear-gradient(to right, black, transparent);
+        color: white;
     }
     .card {
         height: 20vh;
@@ -63,11 +66,13 @@
         <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports/{{game}}/board/1';">
             <h2>자유게시판</h2>
         </div>
+        {% if game != 'sportsetc' %}
         <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports/{{game}}/team';">
             <h2 class="text-center">팀 페이지</h2>
         </div>
+        {% endif %}
         <div class="card mx-5 border rounded border-3 d-flex justify-content-center align-items-center" onclick="location.href='/sports';">
-            <h2>메인 페이지</h2>
+            <h2>메인으로</h2>
         </div>
       </div>
 </div>

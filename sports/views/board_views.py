@@ -62,7 +62,7 @@ def invalid_board(game:str) -> HttpResponse:
 def invalid_reply() -> HttpResponse:
     msg = "<script>"
     msg += f"alert('댓글이 존재하지 않습니다.');"
-    msg += f"location.href='javascript:history.back()';"
+    msg += f"location.href = document.referrer;"
     msg += "</script>"
     return HttpResponse(msg)
 
@@ -142,6 +142,8 @@ def create(request, game):
 def read(request, game, post_id):
     try:
         post = SportsPost.objects.get(post_id=post_id)
+        if post.post_game != game:
+            return invalid_board(game)
         reply = SportsReply.objects.filter(post_id=post_id)
         post.post_views += 1
         post.save()
@@ -162,6 +164,8 @@ def read(request, game, post_id):
 def update(request, game, post_id):
     try:
         post = SportsPost.objects.get(post_id=post_id)
+        if post.post_game != game:
+            return invalid_board(game)
         if request.user == post.post_member:
             if request.method == 'GET':
                 content = {
@@ -192,6 +196,8 @@ def update(request, game, post_id):
 def delete(request, game, post_id):
     try:
         post = SportsPost.objects.get(post_id=post_id)
+        if post.post_game != game:
+            return invalid_board(game)
         if request.user == post.post_member:
             post.delete()
 
@@ -213,6 +219,8 @@ def like(request, game, post_id):
     try:
         if request.user.is_active:
             post = SportsPost.objects.get(post_id=post_id)
+            if post.post_game != game:
+                return invalid_board(game)
             if request.user == post.post_member:
                 msg = "<script>"
                 msg += f"alert('자신의 게시글에 좋아요를 설정할 수 없습니다.');"
@@ -243,6 +251,8 @@ def dislike(request, game, post_id):
     try:
         if request.user.is_active:
             post = SportsPost.objects.get(post_id=post_id)
+            if post.post_game != game:
+                return invalid_board(game)
             if request.user == post.post_member:
                 msg = "<script>"
                 msg += f"alert('자신의 게시글에 싫어요를 설정할 수 없습니다.');"
@@ -274,6 +284,9 @@ def add_reply(request, game, post_id):
         try:
             if request.user.is_active:
                 reply = SportsReply()
+                reply.post_id = SportsPost.objects.get(post_id=post_id)
+                if reply.post_id.post_game != game:
+                    return invalid_board(game)
                 reply.reply_author = request.user.user_id
                 if request.POST.get('author') == None:
                     reply.reply_author_nn = request.user.user_id
@@ -299,9 +312,12 @@ def add_reply(request, game, post_id):
 def del_reply(request, game, reply_id):
     try:
         reply = SportsReply.objects.get(reply_id=reply_id)
+        if reply.post_id.post_game != game:
+            return invalid_board(game)
         if request.user == reply.reply_member:
             post_id = reply.post_id.post_id
             reply.delete()
+            print(post_id)
             msg = "<script>"
             msg += "alert('댓글이 삭제되었습니다.');"
             msg += f"location.href='/sports/{game}/board/post/{post_id}';"
@@ -310,8 +326,11 @@ def del_reply(request, game, reply_id):
         else:
             return redirect('/sports/forbidden')
     except ObjectDoesNotExist as e:  # 이미 삭제되었거나 없는 게시물 조회 시
-        print(e)
-        return invalid_reply()
+        msg = "<script>"
+        msg += "alert('댓글이 삭제되었습니다.');"
+        msg += f"location.href = document.referrer;"
+        msg += "</script>"
+        return HttpResponse(msg)
     except Exception as e:
         print(e)
         return unknown_error(game)

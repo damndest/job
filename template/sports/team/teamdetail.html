@@ -167,7 +167,7 @@
         {% else %}
         <div class="card my-2">
             <div class="card-body">
-                <h2>등록된 톡이 없습니다. 톡을 시작해보세요.</h2>
+                <h4>등록된 톡이 없습니다. 톡을 시작해보세요.</h4>
             </div>  
         </div>
         {% endif %}
@@ -186,6 +186,10 @@
         let title_value = document.getElementById("talk-register").talk_content.value;  
         if (title_value === "") {
             alert("내용을 입력하세요.");
+            return false;
+        }
+        if (title_value.length > 255) {
+            alert("톡 내용은 255자 미만이어야 합니다.");
             return false;
         }
         return true;

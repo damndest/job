@@ -8,7 +8,7 @@
 {% block content %}
 <style>
     #wrapper {
-        min-height: 100%;
+        min-height: 100vh;
     }
     #main-title {
         margin: 50px 10%;
@@ -24,8 +24,8 @@
         <h1>{{gamename}} 게시판</h1>
     </div>
     <!-- 게시글 목록 테이블 -->
-    <div style="height: 500px;">
-        <table class="table table-striped table-hover text-center" style="width:70%" align="center">
+    <div>
+        <table class="table table-striped table-hover text-center" style="width:70vw" align="center">
             <thead>
                 <tr>
                     <th>제목</th>
@@ -40,7 +40,7 @@
             {% if post.paginator.count > 0 %}
                 {% for value in post %}
                     <tr onclick="location.href='/sports/{{game}}/board/post/{{value.post_id}}'">
-                        <td>{{value.post_title}}</td>
+                        <td style="max-width: 50vw;">{{value.post_title}}</td>
                         {% if value.post_author_nn != value.post_author %}
                             <td>{{value.post_author_nn}}({{value.post_author}})</td>
                         {% else %}
