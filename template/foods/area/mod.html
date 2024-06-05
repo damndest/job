@@ -6,12 +6,13 @@
 
 {% block script %}
 <script src="{% static 'js/main/comm.js' %}"></script>
+<script src="{% static 'js/food/area/mod.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="container px-4 py-5" style="height: 46rem;">
     <h4 class="mb-3">음식 지역별 수정</h4>
-    <form name="modFoodForm" class="needs-validation" method="post" novalidate>{% csrf_token %}
+    <form name="modFoodForm" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>{% csrf_token %}
         <div class="mb-3 row">
             <label for="food_writer" class="col-sm-2 col-form-label">작성자</label>
             <div class="col-sm-4">
@@ -51,6 +52,22 @@
                     <option value="봉천" selected>봉천</option>
                   {% endif %}
                 </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="file" class="col-sm-2 col-form-label">파일</label>
+            <div class="col-sm-4">
+                <ul class="list-group">
+                  {% for f in file_list %}
+                    <li class="list-group-item">
+                        {{f}}<button type="button" class="btn btn-danger float-end" onclick="delFoodAreaFile('{{food.food_no}}', '{{f}}');">삭제</button>
+                    </li>
+                  {% endfor %}
+
+                    <li class="list-group-item">
+                        <input class="form-control" type="file" id="food_file" name="files" multiple>
+                    </li>
+                </ul>
             </div>
         </div>
         <hr class="my-5">
