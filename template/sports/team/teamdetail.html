@@ -125,6 +125,70 @@
             </td>
         </tr>
     </table>
+    <div class="d-flex justify-content-center my-5" style="clear:both">
+        <button type="button" class="btn btn-primary btn-lg mx-2" onclick="location.href='/sports/{{game}}/team';">목록으로</button>
+    </div>
+    <div class="w-50 justify-content-center" style="clear:both;">
+        {% if user.is_active %}
+        <div class="card">
+            <form method="post" action="/sports/{{game}}/team/{{team.team_id}}/addtalk/" id="talk-register" onsubmit="return check_talk();"> {% csrf_token %}
+                <div class="card-body">
+                    <h4>톡 작성</h4>
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md mb-2 mb-md-0">
+                            <input type="text" name="talk_content" class="form-control" placeholder="톡을 입력하세요">
+                        </div>
+                    </div>
+                    <div class="row align-items-center my-2">
+                        <div class="d-flex align-items-center">
+                            <input type="text" name="talk_author" class="form-control w-50" value="{{user.user_id}}" disabled>
+                            <input type="submit" value="등록" class="btn btn-success mx-3 w-md-auto btn-sm">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        {% if talk.count > 0 %}
+            {% for t in talk %}
+            <div class="card my-2">
+                <div class="card-body" style="position: relative;">
+                    <p style="font-weight: bold; display: inline-block;">
+                        {{t.team_talk_author}}
+                    </p>
+                    {% if t.team_talk_member == user %}
+                        <button class="btn btn-sm btn-danger" onclick="confirmReplyDelete('{{ t.team_talk_id|escapejs }}')" style="position: absolute; right: 2%;">삭제</button>
+                    {% endif %}
+                    <p style="">{{t.team_talk_content}}</p>
+                    <p style="font-size: 12px;">{{t.team_talk_wdate}}</p>
+                </div>  
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="card my-2">
+            <div class="card-body">
+                <h2>등록된 톡이 없습니다. 톡을 시작해보세요.</h2>
+            </div>  
+        </div>
+        {% endif %}
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    const confirmReplyDelete = (talk_id) => {
+        if (confirm("삭제하시겠습니까?")) {
+            document.location.href='/sports/{{game}}/team/deltalk/' + talk_id;
+        }
+    }
+    const check_talk = () => {
+        let title_value = document.getElementById("talk-register").talk_content.value;  
+        if (title_value === "") {
+            alert("내용을 입력하세요.");
+            return false;
+        }
+        return true;
+    }
+</script>
 {% endblock %}

@@ -33,6 +33,8 @@ urlpatterns = [
     path('baseball/team', baseball_views.teamlist, name="baseball_team"), # 팀 목록 URL
     re_path(r'baseball/team/(\d+)/$', baseball_views.team_detail, name="baseball_team_detail"), # 팀 세부 페이지 URL
     re_path(r'baseball/team/(\d+)/fan/$', baseball_views.team_fan, name="baseball_team_fan"), # 팀 팬 등록 URL
+    re_path(r'baseball/team/(\d+)/addtalk/$', baseball_views.team_add_talk, name="baseball_team_add_talk"), # 팀 톡 추가 URL
+    re_path(r'baseball/team/deltalk/(\d+)/$', baseball_views.team_del_talk, name="baseball_team_del_talk"), # 팀 톡 추가 URL
 
     # 스포츠/축구
     path('football/', football_views.football, name="football"), # 축구 페이지 메인 URL
@@ -54,6 +56,8 @@ urlpatterns = [
     path('football/team', football_views.teamlist, name="football_team"), # 팀 목록 URL
     re_path(r'football/team/(\d+)/$', football_views.team_detail, name="football_team_detail"), # 팀 세부 페이지 URL
     re_path(r'football/team/(\d+)/fan/$', football_views.team_fan, name="football_team_fan"), # 팀 팬 등록 URL
+    re_path(r'football/team/(\d+)/addtalk/$', football_views.team_add_talk, name="football_team_add_talk"), # 팀 톡 추가 URL
+    re_path(r'football/team/deltalk/(\d+)/$', football_views.team_del_talk, name="football_team_del_talk"), # 팀 톡 추가 URL
 
     # 스포츠/기타
     path('sportsetc/', sportsetc_views.sportsetc, name="sportsetc"), # 기타 스포츠 페이지 메인 URL

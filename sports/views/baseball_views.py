@@ -66,3 +66,11 @@ def team_detail(request, team_id):
 def team_fan(request, team_id):
     return team_views.team_fan(request, 'baseball', team_id)
 
+# 야구 팀 톡 추가 뷰
+def team_add_talk(request, team_id):
+    return team_views.team_add_talk(request, 'baseball', team_id)
+
+# 야구 팀 톡 삭제 뷰
+def team_del_talk(request, talk_id):
+    return team_views.team_del_talk(request, 'baseball', talk_id)
+
