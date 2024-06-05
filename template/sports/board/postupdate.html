@@ -42,10 +42,27 @@
                 <th class="align-middle">내용</th>
                 <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content">{{post.post_content}}</textarea></td>
             </tr>
+            <tr>
+                <th class="align-middle">이미지 파일</th>
+                <td colspan="2">
+                    <ul class="list-group">
+                        {% for list in dirList %}
+                            <li class="list-group-item">
+                                {{ list }}
+                                <button type="button" class="btn btn-danger btn-sm" style="margin-left: 30px;" onclick="location.href='/sports/{{game}}/board/post/{{post.post_id}}/delete/{{list}}/';">삭제</button>
+                            </li>
+                        {% endfor %}
+                        <li class="list-group-item">
+                            <input class="form-control" type="file" name="imgs" accept="image/*" multiple>
+                        </li>
+                    </ul>
+
+                </td>
+            </tr>
         </table>
         <!-- 버튼 영역 적용 필요 -->
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="location.href = document.referrer">뒤로가기</button>
+            <button type="button" class="btn btn-secondary btn-lg mx-2" onclick="location.href = '/sports/{{game}}/board/post/{{post.post_id}}';">취소</button>
             <input type="submit" class="btn btn-success btn-lg mx-2" value="저장" style="width: 120px;">
         </div>
     </form>

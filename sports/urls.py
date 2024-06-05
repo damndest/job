@@ -28,6 +28,8 @@ urlpatterns = [
     re_path(r'baseball/board/post/delreply/(\d+)', baseball_views.board_del_reply, name="baseball_board_delreply"), # 게시물 댓글 삭제 URL (매개변수는 댓글 번호)
     re_path(r'baseball/board/post/replylike/(\d+)', baseball_views.board_reply_like, name="baseball_board_addreply"), # 게시물 댓글 좋아요 URL (매개변수는 댓글 번호)
     re_path(r'baseball/board/post/replydislike/(\d+)', baseball_views.board_reply_dislike, name="baseball_board_delreply"), # 게시물 댓글 싫어요 URL (매개변수는 댓글 번호)
+    re_path(r"baseball/board/post/(\d+)/download/([0-9a-zA-Zㄱ-힣 ()_.-]+)", board_views.download_img, name='baseball_board_download_img'), # 게시물 이미지 파일 다운로드 URL (매개변수는 게시물 번호, 이미지 파일명)
+    path("baseball/board/post/<post_id>/delete/<filename>/", board_views.delete_img, name='baseball_board_delete_img'), # 게시물 이미지 파일 삭제 URL (매개변수는 게시물 번호, 이미지 파일명)
 
     # 스포츠/야구/팀
     path('baseball/team', baseball_views.teamlist, name="baseball_team"), # 팀 목록 URL
@@ -44,13 +46,15 @@ urlpatterns = [
     re_path(r'football/board/post/(\d+)/$', football_views.board_read, name="football_board_read"), # 게시물 조회 URL (매개변수는 게시물 번호)
     path('football/board/post/', RedirectView.as_view(url='/sports/football/board/1', permanent=True)), # football/board/로 접속 시 football_board로 리다이렉트
     re_path(r'football/board/post/(\d+)/update/$', football_views.board_update, name="football_board_update"), # 게시물 수정 URL (매개변수는 게시물 번호)
-    re_path(r'football/board/post/(\d+)/delete/$', football_views.board_delete, name="football_board_delete"), # 게시물 삭제 URL (매개변수는 게시물 번호)
+    re_path(r'football/board/post/(\d+)/delete/$', football_views.board_delete, name="football_board_delete"), # 게시물 삭제 URL    매개변수는 게시물 번호)
     re_path(r'football/board/post/(\d+)/like/$', football_views.board_like, name="football_board_like"), # 게시물 좋아요 URL (매개변수는 게시물 번호)
     re_path(r'football/board/post/(\d+)/dislike/$', football_views.board_dislike, name="football_board_dislike"), # 게시물 싫어요 URL (매개변수는 게시물 번호)
     re_path(r'football/board/post/(\d+)/addreply', football_views.board_add_reply, name="football_board_addreply"), # 게시물 댓글 추가 URL (매개변수는 게시물 번호)
     re_path(r'football/board/post/delreply/(\d+)', football_views.board_del_reply, name="football_board_delreply"), # 게시물 댓글 삭제 URL (매개변수는 댓글 번호)
     re_path(r'football/board/post/replylike/(\d+)', football_views.board_reply_like, name="football_board_addreply"), # 게시물 댓글 좋아요 URL (매개변수는 댓글 번호)
     re_path(r'football/board/post/replydislike/(\d+)', football_views.board_reply_dislike, name="football_board_delreply"), # 게시물 댓글 싫어요 URL (매개변수는 댓글 번호)
+    re_path(r"football/board/post/(\d+)/download/([0-9a-zA-Zㄱ-힣 ()_.-]+)", board_views.download_img, name='football_board_download_img'), # 게시물 이미지 파일 다운로드 URL (매개변수는 게시물 번호, 이미지 파일명)
+    path("football/board/post/<post_id>/delete/<filename>/", board_views.delete_img, name='football_board_delete_img'), # 게시물 이미지 파일 삭제 URL (매개변수는 게시물 번호, 이미지 파일명)
 
     # 스포츠/축구/팀
     path('football/team', football_views.teamlist, name="football_team"), # 팀 목록 URL

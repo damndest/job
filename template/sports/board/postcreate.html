@@ -13,6 +13,7 @@
     #main-title {
         margin: 50px 10%;
         text-align: center;
+        padding: 10px;
         border-bottom: 2px solid silver;
     }
     #input-author {
@@ -21,7 +22,7 @@
 </style>
 
 <div id="wrapper">
-    <h1 id="main-title">야구 게시판 글쓰기</h1>
+    <h1 id="main-title">{{gamename}} 게시판 글쓰기</h1>
     <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
     <form method="post" name="post" enctype="multipart/form-data" onsubmit="return check();"> {% csrf_token %}
         <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
@@ -42,6 +43,10 @@
             <tr>
                 <th class="align-middle">내용</th>
                 <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content"></textarea></td>
+            </tr>
+            <tr>
+                <th class="align-middle">이미지 첨부</th>
+                <td colspan=2><input type="file" name="imgs" accept="image/*"  multiple></td>
             </tr>
         </table>
         <!-- 버튼 영역 적용 필요 -->

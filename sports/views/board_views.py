@@ -5,9 +5,10 @@ from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.core.exceptions import *
-import logging
-
-logger = logging.getLogger(__name__)
+from urllib import parse
+import os
+from django.conf import settings
+import shutil
 
 # sports 서브앱의 자유게시판에서 공통적으로 사용될 뷰 함수 묶음 파일
 # 어떤 종목의 자유게시판인지는 매개변수로 들어오는 game 문자열을 통해 결정
@@ -74,6 +75,19 @@ def unknown_error(game:str) -> HttpResponse:
     msg += "</script>"
     return HttpResponse(msg)
 
+# 이미지 업로드 뷰 함수
+def img_upload(request, post_id):
+    dirName = str(post_id)
+    path = settings.MEDIA_ROOT + "/sports/" + dirName + "/"
+    # 각 border.id의 이름으로 폴더 생성
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
+    for x in request.FILES.getlist("imgs"):
+        upload_file = open(path + str(x), 'wb')
+        for chunk in x.chunks():
+            upload_file.write(chunk)
+
 # --------------------- 실제 뷰 함수 ---------------------
 
 # 자유게시판 글 목록 뷰 함수
@@ -130,6 +144,8 @@ def create(request, game):
             post.post_member = request.user
             post.save()
 
+            img_upload(request, post.post_id)
+            
             msg = "<script>"
             msg += "alert('게시글이 저장되었습니다.');"
             msg += f"location.href='/sports/{game}/board/post/{post.post_id}';"
@@ -146,13 +162,22 @@ def read(request, game, post_id):
             return invalid_board(game)
         reply = SportsReply.objects.filter(post_id=post_id)
         post.post_views += 1
-        post.save()
-        content = {
-            'game' : game,
-            'post' : post,
-            'gamename' : gamename[game],
-            'reply' : reply,
-        }
+        try:
+            dirList = os.listdir(settings.MEDIA_ROOT + "/sports/" + str(post_id) + "/")
+            content = {
+                'game' : game,
+                'post' : post,
+                'gamename' : gamename[game],
+                'reply' : reply,
+                'dirList' : dirList,
+            }
+        except:
+            content = {
+                'game' : game,
+                'post' : post,
+                'gamename' : gamename[game],
+                'reply' : reply,
+            }
         return render(request, 'sports/board/postread.html', content)
     except ObjectDoesNotExist as e: # 이미 삭제되었거나 없는 게시물 조회 시
         return invalid_board(game)
@@ -168,17 +193,28 @@ def update(request, game, post_id):
             return invalid_board(game)
         if request.user == post.post_member:
             if request.method == 'GET':
-                content = {
-                    'game' : game,
-                    'post' : post,
-                    'gamename' : gamename[game],
-                }
+                try:
+                    dirList = os.listdir(settings.MEDIA_ROOT + "/sports/" + str(post_id) + "/")
+                    content = {
+                        'game' : game,
+                        'post' : post,
+                        'gamename' : gamename[game],
+                        'dirList' : dirList,
+                    }
+                except:
+                    content = {
+                        'game' : game,
+                        'post' : post,
+                        'gamename' : gamename[game],
+                    }
                 return render(request, 'sports/board/postupdate.html', content)
             elif request.method == 'POST':
                 post.post_title = request.POST.get('title')
                 post.post_content = request.POST.get('content')
                 post.post_udate = datetime.now()
                 post.save()
+
+                img_upload(request, post.post_id)
 
                 msg = "<script>"
                 msg += f"alert('게시글이 수정되었습니다.');"
@@ -393,3 +429,32 @@ def reply_dislike(request, game, reply_id):
         return invalid_board(game)
     except Exception as e:
         return unknown_error(game)
+    
+# 이미지 다운로드 뷰 함수
+def download_img(request, post_id, filename):
+    file_path = os.path.join(settings.MEDIA_ROOT + "/sports/" + post_id + "/" + parse.unquote(filename))
+    
+    # exist() : 파일이 있으면 True 없으면 False
+    if os.path.exists(file_path):
+        readFile = open(file_path, 'rb')
+        response = HttpResponse(readFile.read())
+        response['Content-Disposition'] = 'attachment;filename=' + parse.quote(filename)
+        return response
+    else:
+        msg = "<script>"
+        msg += "alert('삭제되었거나 존재하지 않는 파일입니다.');"
+        msg += f"location.href = document.referrer;"
+        msg += "</script>"
+        return HttpResponse(msg)
+    
+def delete_img(request, post_id, filename):
+    path = "sports/" + post_id + "/" + filename
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    os.remove(file_path)
+
+    msg = "<script>"
+    msg += f"alert('{filename} 파일을 삭제했습니다.');"
+    msg += f"location.href = document.referrer;"
+    msg += "</script>"
+
+    return HttpResponse(msg)
