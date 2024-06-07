@@ -131,12 +131,15 @@
     <div class="w-50 justify-content-center" style="clear:both;">
         {% if user.is_active %}
         <div class="card">
-            <form method="post" action="/sports/{{game}}/team/{{team.team_id}}/addtalk/" id="talk-register" onsubmit="return check_talk();"> {% csrf_token %}
+            <form method="post" class="needs-validation" action="/sports/{{game}}/team/{{team.team_id}}/addtalk/" id="talk-register" onsubmit="return check_talk();" novalidate> {% csrf_token %}
                 <div class="card-body">
                     <h4>톡 작성</h4>
                     <div class="row align-items-center">
                         <div class="col-12 col-md mb-2 mb-md-0">
-                            <input type="text" name="talk_content" class="form-control" placeholder="톡을 입력하세요">
+                            <input type="text" name="talk_content" class="form-control" placeholder="톡을 입력하세요" required>
+                            <div class="invalid-feedback">
+                                톡 내용을 입력하세요.
+                            </div>
                         </div>
                     </div>
                     <div class="row align-items-center my-2">
@@ -159,7 +162,7 @@
                     {% if t.team_talk_member == user %}
                         <button class="btn btn-sm btn-danger" onclick="confirmReplyDelete('{{ t.team_talk_id|escapejs }}')" style="position: absolute; right: 2%;">삭제</button>
                     {% endif %}
-                    <p style="">{{t.team_talk_content}}</p>
+                    <p>{{t.team_talk_content}}</p>
                     <p style="font-size: 12px;">{{t.team_talk_wdate}}</p>
                 </div>  
             </div>
@@ -173,6 +176,7 @@
         {% endif %}
 </div>
 
+<script src="{% static 'js/main/check.js' %}"></script>
 {% endblock %}
 
 {% block script %}

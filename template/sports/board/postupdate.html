@@ -12,17 +12,24 @@
     #main-title {
         margin: 50px 10%;
         text-align: center;
+        padding: 10px;
+        border-bottom: 2px solid silver;
     }
 </style>
 
 <div id="wrapper">
-    <h1 id="main-title">야구 게시글 수정</h1>
+    <h1 id="main-title">{{gamename}} 게시글 수정</h1>
     <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
-    <form method="post" enctype="multipart/form-data" onsubmit="return check();"> {% csrf_token %}
+    <form method="post" class="needs-validation" enctype="multipart/form-data" onsubmit="return check();" novalidate> {% csrf_token %}
         <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
             <tr>
                 <th class="align-middle">제목</th>
-                <td colspan="2"><input type="text" id="post-title" name="title" class="form-control" value="{{post.post_title}}"></td>
+                <td colspan="2">
+                    <input type="text" id="post-title" name="title" class="form-control" value="{{post.post_title}}" required>
+                    <div class="invalid-feedback">
+                        제목을 입력하세요.
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th class="align-middle">작성자</th>
@@ -40,7 +47,12 @@
             </tr>
             <tr>
                 <th class="align-middle">내용</th>
-                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content">{{post.post_content}}</textarea></td>
+                <td colspan="2">
+                    <textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content" required>{{post.post_content}}</textarea>
+                    <div class="invalid-feedback">
+                        내용을 입력하세요.
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th class="align-middle">이미지 파일</th>
@@ -67,7 +79,7 @@
         </div>
     </form>
 </div>
-
+<script src="{% static 'js/main/check.js' %}"></script>
 {% endblock %}
 
 {% block script %}

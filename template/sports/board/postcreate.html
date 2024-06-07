@@ -22,17 +22,27 @@
 </style>
 
 <div id="wrapper">
-    <h1 id="main-title">{{gamename}} 게시판 글쓰기</h1>
+    <h1 id="main-title">{{gamename}} 게시글 작성</h1>
     <!-- 추후 파일(이미지) 첨부 기능 추가 요망 -->
-    <form method="post" name="post" enctype="multipart/form-data" onsubmit="return check();"> {% csrf_token %}
+    <form method="post" class="needs-validation" name="post" enctype="multipart/form-data" onsubmit="return check();" novalidate> {% csrf_token %}
         <table class="text-center table table-bordered border- table-striped w-50" align="center" style="width: 50%;">
             <tr>
                 <th class="align-middle">제목</th>
-                <td colspan="2"><input type="text" id="post-title" name="title" class="form-control"></td>
+                <td colspan="2">
+                    <input type="text" id="post-title" name="title" class="form-control" required>
+                    <div class="invalid-feedback">
+                        제목을 입력하세요.
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th class="align-middle">작성자</th>
-                <td><input type="text" name="author" class="form-control" id="author" disabled value="{{user.user_id}}"></td>
+                <td>
+                    <input type="text" name="author" class="form-control" id="post-author" disabled value="{{user.user_id}}" required>
+                    <div class="invalid-feedback">
+                        닉네임을 입력하세요.
+                    </div>
+                </td>
                 <td style="width:20%;" class="align-middle">
                     <input type="checkbox" class="form-check-input" name="toggle" onclick="toggle_name(this);">
                     <label class="form-check-label" for="flexCheckDefault">
@@ -42,7 +52,13 @@
             </tr>
             <tr>
                 <th class="align-middle">내용</th>
-                <td colspan="2"><textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content"></textarea></td>
+                <td colspan="2">
+                    <textarea name="content" class="form-control" rows="15" style="resize:none;" id="post-content" required></textarea>
+                    <div class="invalid-feedback">
+                        내용을 입력하세요.
+                    </div>
+                
+                </td>
             </tr>
             <tr>
                 <th class="align-middle">이미지 첨부</th>
@@ -58,8 +74,11 @@
     </form>
 </div>
 
+
+<script src="{% static 'js/main/check.js' %}"></script>
+
 <script>
-    let author = document.getElementById("author")
+    let author = document.getElementById("post-author")
     const toggle_name = (ch) => {
         if (ch.checked) {
             author.removeAttribute("disabled");
@@ -81,6 +100,10 @@
         }
         if (document.getElementById("post-content").value.length == 0) {
             alert("내용을 입력하세요.");
+            return false;
+        }
+        if (document.getElementById("post-author").value.length == 0) {
+            alert("닉네임을 입력하세요.");
             return false;
         }
         return true;
