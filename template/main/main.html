@@ -13,15 +13,15 @@
     <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
         <div class="col">
             <div class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg" 
-            style='background-image: url("{% static 'imgs/sushi.jpg' %}");' onclick="foods()">
+            style='background-image: url("{% static 'imgs/sushi.jpg' %}");' onclick="foods()" role="button">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-white">음식</h3>
-                </div>
+                </div>      {# role="button" 추가하면 마우스 커서가 손모양 변경됨(bootstrap css 참고) #}
             </div>
         </div>
         <div class="col">
             <div class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg" 
-            style='background-image: url("{% static 'imgs/horse.jpg' %}");' onclick="humor()">
+            style='background-image: url("{% static 'imgs/horse.jpg' %}");' onclick="humor()" role="button">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-white">유머</h3>
                 </div>
@@ -31,7 +31,7 @@
     <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
         <div class="col">
             <div class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg"
-            style='background-image: url("{% static 'imgs/audience.jpg' %}");' onclick="sports()">
+            style='background-image: url("{% static 'imgs/audience.jpg' %}");' onclick="sports()" role="button">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-white">스포츠</h3>
                 </div>
@@ -39,7 +39,7 @@
         </div>
         <div class="col">
             <div class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg"
-            style='background-image: url("{% static 'imgs/business.jpg' %}");' onclick="economy()">
+            style='background-image: url("{% static 'imgs/business.jpg' %}");' onclick="economy()" role="button">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-white">경제</h3>
                 </div>
