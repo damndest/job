@@ -87,7 +87,6 @@ def team_detail(request, game, team_id):
     except ObjectDoesNotExist as e:
         return invalid_team(game)
     except Exception as e:
-        print(e)
         return unknown_error(game)
     
 # 팀 팬 등록/등록 취소 뷰 함수
@@ -144,7 +143,6 @@ def team_add_talk(request, game, team_id):
         except ObjectDoesNotExist as e:
             return invalid_team(game)
         except Exception as e:
-            print(e)
             return unknown_error(game)
     else:
         return need_login()
@@ -166,8 +164,6 @@ def team_del_talk(request, game, talk_id):
         else:
             return redirect('/sports/forbidden')
     except ObjectDoesNotExist as e:  # 이미 삭제되었거나 없는 톡 조회 시
-        print(e)
         return invalid_talk(game)
     except Exception as e:
-        print(e)
         return unknown_error(game)

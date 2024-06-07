@@ -93,12 +93,12 @@ def img_upload(request, post_id):
 # 자유게시판 글 목록 뷰 함수
 def boardlist(request, game, page):
     post_list = SportsPost.objects.filter(post_game=game).order_by('-post_id').values('post_id', 'post_title', 'post_author', 'post_author_nn', 'post_views')
-
     for post in post_list:
         post_id = post['post_id']
         post['reply_count'] = SportsPost.objects.get(post_id=post_id).post_reply.count()
         post['like_count'] = SportsPost.objects.get(post_id=post_id).post_like.count()
         post['dislike_count'] = SportsPost.objects.get(post_id=post_id).post_dislike.count()
+
     # 페이징 설정 부분
     paging = Paginator(post_list, POST_PER_PAGE)
     page_num = get_page_num(page, paging)
@@ -162,6 +162,7 @@ def read(request, game, post_id):
             return invalid_board(game)
         reply = SportsReply.objects.filter(post_id=post_id)
         post.post_views += 1
+        post.save()
         try:
             dirList = os.listdir(settings.MEDIA_ROOT + "/sports/" + str(post_id) + "/")
             content = {
@@ -182,7 +183,6 @@ def read(request, game, post_id):
     except ObjectDoesNotExist as e: # 이미 삭제되었거나 없는 게시물 조회 시
         return invalid_board(game)
     except Exception as e:
-        print(e)
         return unknown_error(game)
     
 # 자유게시판 글 수정 뷰 함수
@@ -296,7 +296,6 @@ def dislike(request, game, post_id):
                 msg += "</script>"
                 return HttpResponse(msg)
             else:
-                print(post.post_like.all())
                 if post.post_dislike.filter(member_idx=request.user.member_idx).exists():
                     msg = "<script>"
                     msg += f"alert('이미 싫어요가 설정된 게시물입니다.');"
@@ -339,7 +338,6 @@ def add_reply(request, game, post_id):
         except ObjectDoesNotExist as e:  # 이미 삭제되었거나 없는 게시물 조회 시
             return invalid_board(game)
         except Exception as e:
-            print(e)
             return unknown_error(game)
     else:
         return invalid_board(game)
@@ -353,7 +351,6 @@ def del_reply(request, game, reply_id):
         if request.user == reply.reply_member:
             post_id = reply.post_id.post_id
             reply.delete()
-            print(post_id)
             msg = "<script>"
             msg += "alert('댓글이 삭제되었습니다.');"
             msg += f"location.href='/sports/{game}/board/post/{post_id}';"
@@ -368,7 +365,6 @@ def del_reply(request, game, reply_id):
         msg += "</script>"
         return HttpResponse(msg)
     except Exception as e:
-        print(e)
         return unknown_error(game)
     
 
