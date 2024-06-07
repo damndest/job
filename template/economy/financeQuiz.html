@@ -1,15 +1,112 @@
 {% extends 'main/main.html' %}
 {% block title %}경제문제{% endblock %}
 {% block content %}
- 경제문제
+<style>
+body {
+    background-color: white;
+}
+.container {
+    margin-top: 50px;
+}
+.card {
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+    background-color: #333333;
+    color: #fff;
+    border-bottom: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.card-title {
+    font-size: 24px;
+}
+.table th {
+    background-color: #333333;
+    color: #fff;
+    border-color: #333333;
+}
+.table td {
+    border-color: #333333;
+}
+.form-control {
+    border-color: #ced4da;
+}
+textarea.form-control:disabled,
+input.form-control:disabled {
+    background-color: #e9ecef;
+}
+.selected {
+    background-color: #d3d3d3 !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var cells = document.querySelectorAll('.selectable');
+
+    cells.forEach(function (cell) {
+        cell.addEventListener('click', function () {
+            if (cell.textContent.trim() === '1.') {
+                alert('정답입니다');
+            }
+            cells.forEach(function (c) {
+                c.classList.remove('selected');
+            });
+            cell.classList.add('selected');
+        });
+    });
+});
+</script>
+
+<div class="container">
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-header text-center">
+            <h3 class="card-title mb-0"> 경제 상식 퀴즈 </h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered text-center">
+                <tr>
+                    <th style="width: 20%;">제목</th>
+                    <th>"주가 수익 비율"을 뜻하는 용어는 무엇인가?</th>
+                </tr>
+                <tr>
+                    <td class="selectable">1.</td>
+                    <td>PER</td>
+                </tr>
+                <tr>
+                    <td class="selectable">2.</td>
+                    <td>PBR</td>
+                </tr>
+                <tr>
+                    <td class="selectable">3.</td>
+                    <td>ROE</td>
+                </tr>
+                <tr>
+                    <td class="selectable">4.</td>
+                    <td>EPS</td>
+                </tr>
+
+                <tr><td colspan="2">
+                    <div class="d-flex justify-content-center" style="clear:both;">
+                    
+                    <button type='button' class="btn btn-success btn-lg mx-2" 
+                        onclick="document.location.href='*'">이전 문제</button>
+                    <button type='button' class="btn btn-warning btn-lg mx-2"
+                        onclick="document.location.href='*'">
+                        목록으로</button>
+                    <button type='button' class="btn btn-success btn-lg mx-2"
+                        onclick="document.location.href='*'">
+                        다음 문제</button>
+                </div>
+            </td></tr>
 
 
+            </table>
+        </div>
+    </div>
+</div>
 
-
-
-
-
-
-
-    
 {% endblock %}

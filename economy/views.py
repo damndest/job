@@ -42,7 +42,7 @@ def financeBoard(request, page):
     return render(request, 'economy/financeboard.html', content);
 
 def financeMain(request):
-    return render(request, 'economy/financeboard.html');
+    return render(request, 'economy/financemain.html');
 
 def boardAdd(request):
     if request.method == 'POST':

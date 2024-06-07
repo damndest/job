@@ -1,7 +1,53 @@
 {% extends 'main/main.html' %}
 {% block title %}경제메인{% endblock %}
 {% block content %}
-   경제메인
-   
+
+<style>
+    ol {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin: 20px 0;
+        padding: 10px; /* padding 추가 */
+        transition: background-color 0.3s;
+    }
+    img {
+        width: 290px;
+        height: 240px;
+        display: block;
+    }
+    li:hover {
+        background-color: #e0e0e0; /* 마우스를 올렸을 때 배경색 */
+    }
+    .selected {
+        background-color: #f0f0f0; /* 선택된 항목의 배경색 */
+    }
+</style>
+
+economy main page
+
+<ol id="economy-list">
+    <li><a href="/economy/financeboard/1"><img src="/static/imgs/economy/economyboard.png" alt="경제 게시판"></a></li>
+    <li><a href="/economy/financequiz"><img src="/static/imgs/economy/economyquiz.png" alt="경제 문제"></a></li>
+    <li><a href="/economy/financerecent/"><img src="/static/imgs/economy/economyrecent.png" alt="경제 현황"></a></li>
+</ol>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var items = document.querySelectorAll('#economy-list li');
+
+        items.forEach(function(item) {
+            item.addEventListener('click', function() {
+                // 모든 항목에서 'selected' 클래스 제거
+                items.forEach(function(el) {
+                    el.classList.remove('selected');
+                });
+                // 클릭된 항목에 'selected' 클래스 추가
+                item.classList.add('selected');
+            });
+        });
+    });
+</script>
 
 {% endblock %}
