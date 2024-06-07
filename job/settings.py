@@ -78,6 +78,7 @@ WSGI_APPLICATION = 'job.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# sqlite3 DB 설정
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -85,6 +86,19 @@ DATABASES = {
     }
 }
 
+# 마리아 DB 셋팅
+""" 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',   # mysql orm engine
+        'NAME': 'althlyeojob',                  # DB 이름
+        'USER': 'root',                         # 사용자 이름
+        'PASSWORD': 'tnvjdbwj',                 # 암호
+        'HOST': 'localhost',                    # 127.0.0.1, 서버 아이피 또는 도메인 이름
+        'PORT': '3406',                         # DB 연결 포트
+    }
+}
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
